@@ -16,7 +16,7 @@
                      alt="User Image">
              </div>
              <div class="info">
-                 <a href="#" class="d-block">Alexander Pierce</a>
+                 <a href="#" class="d-block">{{ Auth::user()->name }}</a>
              </div>
          </div>
 
@@ -135,7 +135,7 @@
                      </a>
                  </li>
                  <li class="nav-item">
-                     <a href="{{ route('logout') }}" class="nav-link">
+                     <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit()">
                          <i class="fa fa-cog"></i>
                          <p>
                              Logout
@@ -148,4 +148,7 @@
          <!-- /.sidebar-menu -->
      </div>
      <!-- /.sidebar -->
+     <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none">
+         @csrf
+     </form>
  </aside>
