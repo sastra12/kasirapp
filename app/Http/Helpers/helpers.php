@@ -1,8 +1,3 @@
-<!-- Make helpers -->
-<!-- Register to composer.json(autoload)
-so that it can be accessed in all 
-application components. For testing helpers 
-run composer dump-autoload -->
 
 <?php
 function format_uang($angka)
