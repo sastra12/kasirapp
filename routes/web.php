@@ -20,4 +20,4 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::get('/dashboard', function () {
     return view('dashboard.index');
-})->middleware('auth');
+})->name('dashboard')->middleware('auth');
