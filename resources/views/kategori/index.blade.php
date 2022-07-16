@@ -56,8 +56,19 @@
 
         function deleteData(url) {
             if (confirm('Yakin ingin menghapus data terpilih?')) {
-                $.post(url, {
-                        '_method': 'delete'
+                // $.post(url, {
+                //         '_method': 'delete'
+                //     })
+                //     .done((response) => {
+                //         table.ajax.reload();
+                //     })
+                //     .fail((errors) => {
+                //         alert('Tidak dapat menghapus data');
+                //         return;
+                //     });
+                $.ajax({
+                        url: url,
+                        method: 'DELETE',
                     })
                     .done((response) => {
                         table.ajax.reload();
