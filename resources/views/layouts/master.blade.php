@@ -28,6 +28,10 @@
     <link rel="stylesheet" href="{{ asset('AdminLTE-3/plugins/summernote/summernote-bs4.css') }}">
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('AdminLTE-3/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -108,12 +112,16 @@
     <script src="{{ asset('AdminLTE-3/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <!-- overlayScrollbars -->
     <script src="{{ asset('AdminLTE-3/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+    <!-- DataTables -->
+    <script src="{{ asset('AdminLTE-3/plugins/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('AdminLTE-3/plugins/datatables-bs4/js/dataTables.bootstrap4.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('AdminLTE-3/dist/js/adminlte.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="{{ asset('AdminLTE-3/dist/js/pages/dashboard.js') }}"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('AdminLTE-3/dist/js/demo.js') }}"></script>
+    @stack('script')
 </body>
 
 </html>

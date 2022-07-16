@@ -36,7 +36,7 @@
                  </li>
                  <li class="nav-header">EXAMPLES</li>
                  <li class="nav-item">
-                     <a href="pages/calendar.html" class="nav-link">
+                     <a href="{{ route('kategori.index') }}" class="nav-link">
                          <i class="fa fa-cube"></i>
                          <p>
                              Kategori

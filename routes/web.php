@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,12 @@ Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-Route::get('/dashboard', function () {
-    return view('dashboard.index');
-})->name('dashboard')->middleware('auth');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard.index');
+    })->name('dashboard');
+
+    // Kategori
+    Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
+    Route::resource('/kategori', KategoriController::class);
+});
