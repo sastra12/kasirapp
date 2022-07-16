@@ -49,6 +49,10 @@
             $('#modal-form').modal('show')
             $('#modal-form .modal-title').html('Tambah Data Kategori')
 
+            // buat mengosongkan error listnya terlebih dahulu
+            $('#error_list').html('')
+            $('#error_list').removeClass('alert alert-danger')
+
             $('#modal-form form')[0].reset()
             $('#modal-form form').attr('action', url)
             $('#modal-form [name=_method]').val('post')
@@ -56,16 +60,6 @@
 
         function deleteData(url) {
             if (confirm('Yakin ingin menghapus data terpilih?')) {
-                // $.post(url, {
-                //         '_method': 'delete'
-                //     })
-                //     .done((response) => {
-                //         table.ajax.reload();
-                //     })
-                //     .fail((errors) => {
-                //         alert('Tidak dapat menghapus data');
-                //         return;
-                //     });
                 $.ajax({
                         url: url,
                         method: 'DELETE',
@@ -78,6 +72,25 @@
                         return;
                     });
             }
+        }
+
+        function editForm(url) {
+            // buat mengosongkan error listnya terlebih dahulu
+            $('#error_list').html('')
+            $('#error_list').removeClass('alert alert-danger')
+
+            // buat menampilkan modal
+            $('#modal-form').modal('show')
+            $('#modal-form .modal-title').html('Edit Data Kategori')
+
+            // buat aksi ke method update
+            $('#modal-form form').attr('action', url);
+            $('#modal-form [name=_method]').val('put');
+
+            $.get(url)
+                .done((response) => {
+                    $('#nama_kategori').val(response.nama_kategori)
+                })
         }
 
         $(document).ready(function() {
@@ -119,12 +132,13 @@
                 e.preventDefault()
                 $.post($('#modal-form form').attr('action'), $('#modal-form form').serialize())
                     .done((response) => {
-                        if (response.status == 'Success' && response.message ==
-                            'Success Added Data') {
+                        if (response.message == 'Success Added Data' || response.message ==
+                            'Success Updated Data') {
                             $('#modal-form').modal('hide');
                             alert(response.message)
                             table.ajax.reload()
-                        } else if (response.status == 'Failed added') {
+                        } else if (response.status == 'Failed added' || response.status ==
+                            'Failed updated') {
                             $('#error_list').html('')
                             $('#error_list').addClass('alert alert-danger')
                             $.each(response.errors, function(key, value) {

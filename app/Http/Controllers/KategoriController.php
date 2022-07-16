@@ -82,7 +82,8 @@ class KategoriController extends Controller
      */
     public function show($id_kategori)
     {
-        //
+        $kategori = Kategori::find($id_kategori);
+        return response()->json($kategori);
     }
 
     /**
@@ -105,7 +106,23 @@ class KategoriController extends Controller
      */
     public function update(Request $request, $id_kategori)
     {
-        //
+        $validated = Validator::make($request->all(), [
+            'nama_kategori' => 'required',
+        ]);
+        if ($validated->fails()) {
+            return response()->json([
+                'status' => 'Failed updated',
+                'errors' => $validated->messages()
+            ]);
+        } else {
+            $data = Kategori::find($id_kategori);
+            $data->nama_kategori = $request->nama_kategori;
+            $data->save();
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Success Updated Data'
+            ]);
+        }
     }
 
     /**
