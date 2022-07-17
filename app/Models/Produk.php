@@ -11,4 +11,5 @@ class Produk extends Model
     protected $table = 'produk';
     protected $guarded = [];
     protected $primaryKey = 'id_produk';
+    protected $status;
 }

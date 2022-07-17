@@ -34,13 +34,25 @@ class ProdukController extends Controller
         return Datatables::of($listdata)
             // for number
             ->addIndexColumn()
-            ->addColumn('action', function ($data) {
+            // buat yang didalam kolom
+            ->addColumn('kode_produk', function ($listdata) {
+                return '<span class="badge badge-success">' . $listdata->kode_produk . '</span>';
+            })
+            ->addColumn('harga_beli', function ($listdata) {
+                return format_uang($listdata->harga_beli);
+            })
+            ->addColumn('harga_jual', function ($listdata) {
+                return format_uang($listdata->harga_jual);
+            })
+            // buat yang didalam kolom
+            ->addColumn('action', function ($listdata) {
                 return '
-                <button onclick="editForm(`' . route('produk.update', $data->id_kategori) . '`)" class="btn btn-xs btn-info">Edit</button>
-                <button onclick="deleteData(`' . route('produk.destroy', $data->id_kategori) . '`)" class="btn btn-xs btn-danger">Delete</button>
+                <button onclick="editForm(`' . route('produk.update', $listdata->id_produk) . '`)" class="btn btn-xs btn-info">Edit</button>
+                <button onclick="deleteData(`' . route('produk.destroy', $listdata->id_produk) . '`)" class="btn btn-xs btn-danger">Delete</button>
             ';
             })
-            ->rawColumns(['action'])
+            // buat menampilkan
+            ->rawColumns(['action', 'kode_produk'])
             ->make(true);
     }
 
@@ -80,7 +92,11 @@ class ProdukController extends Controller
             ]);
         } else {
             $produk = Produk::latest()->first();
-            $request['kode_produk'] = 'P' . kode_produk((int) $produk->id_produk + 1, 4);
+            if ($produk == null) {
+                $request['kode_produk'] = 'P' . kode_produk(1, 4);
+            } else {
+                $request['kode_produk'] = 'P' . kode_produk((int) $produk->id_produk + 1, 4);
+            }
             $data = new Produk();
             $data->id_kategori = $request->kategori;
             $data->kode_produk = $request['kode_produk'];
@@ -155,9 +171,9 @@ class ProdukController extends Controller
      * @param  int  $id_kategori
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id_kategori)
+    public function destroy($id_produk)
     {
-        $data = Kategori::find($id_kategori);
+        $data = Produk::find($id_produk);
         $data->delete();
     }
 }

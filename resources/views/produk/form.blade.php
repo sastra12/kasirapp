@@ -23,7 +23,7 @@
                     <div class="form-group">
                         <label for="id_kategori">Kategori</label>
                         <select id='id_kategori' class="form-control" name='kategori' required>
-                            <option>Pilihan</option>
+                            {{-- <option>Pilihan</option> --}}
                             @foreach ($kategori as $key => $data)
                                 <option value="{{ $key }}">{{ $data }}</option>
                             @endforeach
