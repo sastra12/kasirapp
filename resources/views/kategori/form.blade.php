@@ -18,7 +18,8 @@
                     @method('post')
                     <div class="form-group">
                         <label for="nama_kategori">Nama Kategori</label>
-                        <input type="text" class="form-control" id="nama_kategori" name="nama_kategori">
+                        <input type="text" class="form-control" id="nama_kategori" name="nama_kategori"
+                            value="{{ old('nama_kategori') }}">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Simpan</button>

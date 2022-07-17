@@ -18,7 +18,8 @@
                     @method('post')
                     <div class="form-group">
                         <label for="nama">Nama</label>
-                        <input type="text" class="form-control" id="nama" name="nama">
+                        <input type="text" class="form-control" id="nama" name="nama"
+                            value="{{ old('nama') }}">
                     </div>
                     <div class="form-group">
                         <label for="id_kategori">Kategori</label>
@@ -31,25 +32,28 @@
                     </div>
                     <div class="form-group">
                         <label for="merk">Merk</label>
-                        <input type="text" class="form-control" id="merk" name="merk">
+                        <input type="text" class="form-control" id="merk" name="merk"
+                            value="{{ old('merk') }}">
                     </div>
                     <div class="form-group">
                         <label for="harga_beli">Harga Beli</label>
-                        <input type="number" class="form-control" id="harga_beli" name="harga_beli" min="0">
+                        <input type="number" class="form-control" id="harga_beli" name="harga_beli" min="0"
+                            value="{{ old('harga_beli') }}">
                     </div>
                     <div class="form-group">
                         <label for="harga_jual">Harga Jual</label>
-                        <input type="number" class="form-control" id="harga_jual" name="harga_jual" min="0">
+                        <input type="number" class="form-control" id="harga_jual" name="harga_jual" min="0"
+                            value="{{ old('harga_jual') }}">
                     </div>
                     <div class="form-group">
                         <label for="diskon">Diskon</label>
                         <input type="number" class="form-control" id="diskon" name="diskon" value="0"
-                            min="0">
+                            value="{{ old('diskon') }}" min="0">
                     </div>
                     <div class="form-group">
                         <label for="stok">Stok</label>
                         <input type="number" class="form-control" id="number" name="stok" value="0"
-                            min="0">
+                            value="{{ old('stok') }}" min="0">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Simpan</button>
