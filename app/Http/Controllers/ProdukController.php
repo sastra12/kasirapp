@@ -6,7 +6,6 @@ use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Product;
 use App\Models\Produk;
 
 class ProdukController extends Controller
@@ -120,10 +119,10 @@ class ProdukController extends Controller
      * @param  int  $id_kategori
      * @return \Illuminate\Http\Response
      */
-    public function show($id_kategori)
+    public function show($id_produk)
     {
-        $kategori = Kategori::find($id_kategori);
-        return response()->json($kategori);
+        $produk = Produk::find($id_produk);
+        return response()->json($produk);
     }
 
     /**

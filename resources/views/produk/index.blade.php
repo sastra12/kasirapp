@@ -96,7 +96,14 @@
 
             $.get(url)
                 .done((response) => {
-                    $('#nama_kategori').val(response.nama_kategori)
+                    console.log(response);
+                    $('#nama').val(response.nama_produk)
+                    $('#kategori').val(response.id_kategori)
+                    $('#nama_kategori').val(response.merk)
+                    $('#nama_kategori').val(response.harga_beli)
+                    $('#nama_kategori').val(response.harga_jual)
+                    $('#nama_kategori').val(response.diskon)
+                    $('#nama_kategori').val(response.stock)
                 })
         }
 
