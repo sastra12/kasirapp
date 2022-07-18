@@ -20,26 +20,34 @@
                     <div class="card-header">
                         <button onclick="addForm('{{ route('produk.store') }}')" class="btn btn-success btn-xs"><i
                                 class="fa fa-plus-circle">Tambah</i></button>
+                        <button onclick="deleteSelected('{{ route('produk.delete_selected') }}')"
+                            class="btn btn-danger btn-xs"><i class="fa fa-plus-trash">Hapus Terpilih</i></button>
                     </div>
 
-                    <div class="card-body table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col" width="5%">No</th>
-                                    <th scope="col">Kode Produk</th>
-                                    <th scope="col">Nama Produk</th>
-                                    <th scope="col">Kategori</th>
-                                    <th scope="col">Merk</th>
-                                    <th scope="col">Harga Beli</th>
-                                    <th scope="col">Harga Jual</th>
-                                    <th scope="col">Diskon</th>
-                                    <th scope="col">Stok</th>
-                                    <th scope="col" width="15%">Aksi</th>
-                                </tr>
-                            </thead>
 
-                        </table>
+                    <div class="card-body table-responsive">
+                        <form action="" method="post" class="form-produk">
+                            @csrf
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox" name="select_all" id="select_all">
+                                        </th>
+                                        <th scope="col" width="5%">No</th>
+                                        <th scope="col">Kode Produk</th>
+                                        <th scope="col">Nama Produk</th>
+                                        <th scope="col">Kategori</th>
+                                        <th scope="col">Merk</th>
+                                        <th scope="col">Harga Beli</th>
+                                        <th scope="col">Harga Jual</th>
+                                        <th scope="col">Diskon</th>
+                                        <th scope="col">Stok</th>
+                                        <th scope="col" width="15%">Aksi</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -63,22 +71,6 @@
             $('#modal-form form')[0].reset()
             $('#modal-form form').attr('action', url)
             $('#modal-form [name=_method]').val('post')
-        }
-
-        function deleteData(url) {
-            if (confirm('Yakin ingin menghapus data terpilih?')) {
-                $.ajax({
-                        url: url,
-                        method: 'DELETE',
-                    })
-                    .done((response) => {
-                        table.ajax.reload();
-                    })
-                    .fail((errors) => {
-                        alert('Tidak dapat menghapus data');
-                        return;
-                    });
-            }
         }
 
         function editForm(url) {
@@ -107,6 +99,43 @@
                 })
         }
 
+        function deleteData(url) {
+            if (confirm('Yakin ingin menghapus data terpilih?')) {
+                $.ajax({
+                        url: url,
+                        method: 'DELETE',
+                    })
+                    .done((response) => {
+                        table.ajax.reload();
+                    })
+                    .fail((errors) => {
+                        alert('Tidak dapat menghapus data');
+                        return;
+                    });
+            }
+        }
+
+        function deleteSelected(url) {
+            if ($('input:checked').length >= 1) {
+                if (confirm('Yakin ingin menghapus data?')) {
+                    $.ajax({
+                            url: url,
+                            method: 'DELETE',
+                            data: $('.form-produk').serialize()
+                        })
+                        .done((response) => {
+                            table.ajax.reload();
+                        })
+                        .fail((errors) => {
+                            alert('Tidak dapat menghapus data');
+                            return;
+                        });
+                }
+            } else {
+                alert("Choose at least one data")
+            }
+        }
+
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
@@ -115,6 +144,8 @@
             });
 
             table = $('.table').DataTable({
+                // buat menghilangkan sortable pada nomor
+                "aaSorting": [],
                 processing: true,
                 autowidth: false,
                 ajax: {
@@ -122,6 +153,11 @@
                     type: 'GET'
                 },
                 columns: [{
+                        data: 'select_all',
+                        name: 'select_all',
+                        searchable: false,
+                        sortable: false
+                    }, {
                         // buat penomoran
                         data: 'DT_RowIndex',
                         searchable: false,
@@ -188,6 +224,11 @@
                             })
                         }
                     })
+            })
+
+            // checked all
+            $('#select_all').on('click', function(e) {
+                $('input:checkbox').prop('checked', this.checked);
             })
         });
     </script>

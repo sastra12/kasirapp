@@ -33,6 +33,11 @@ class ProdukController extends Controller
         return Datatables::of($listdata)
             // for number
             ->addIndexColumn()
+            ->addColumn('select_all', function ($listdata) {
+                return '<div class="form-check">
+                <input class="form-check-input" type="checkbox" name="id_produk[]" value="' . $listdata->id_produk . '" id="flexCheckDefault">
+              </div>';
+            })
             // buat yang didalam kolom
             ->addColumn('kode_produk', function ($listdata) {
                 return '<span class="badge badge-success">' . $listdata->kode_produk . '</span>';
@@ -51,7 +56,7 @@ class ProdukController extends Controller
             ';
             })
             // buat menampilkan
-            ->rawColumns(['action', 'kode_produk'])
+            ->rawColumns(['action', 'kode_produk', 'select_all'])
             ->make(true);
     }
 
@@ -174,5 +179,13 @@ class ProdukController extends Controller
     {
         $data = Produk::find($id_produk);
         $data->delete();
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        foreach ($request->id_produk as $id) {
+            $produk = Produk::find($id);
+            $produk->delete();
+        }
     }
 }
