@@ -71,7 +71,9 @@ class MemberController extends Controller
 
 
     public function show(Member $member)
-    { }
+    {
+        return response()->json($member);
+    }
 
     public function edit(Member $member)
     { }

@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                         <label for="stok">Stok</label>
-                        <input type="number" class="form-control" id="number" name="stok" value="0"
+                        <input type="number" class="form-control" id="stok" name="stok" value="0"
                             value="{{ old('stok') }}" min="0">
                     </div>
                     <div class="modal-footer">

@@ -47,7 +47,7 @@
 
         function addForm(url) {
             $('#modal-form').modal('show')
-            $('#modal-form .modal-title').html('Tambah Data Kategori')
+            $('#modal-form .modal-title').html('Tambah Data Member')
 
             // buat mengosongkan error listnya terlebih dahulu
             $('#error_list').html('')
@@ -58,6 +58,24 @@
             $('#modal-form [name=_method]').val('post')
         }
 
+        function editForm(url) {
+            $('#modal-form').modal('show')
+            $('#modal-form .modal-title').html('Edit Data Member')
+
+            // buat mengosongkan error listnya terlebih dahulu
+            $('#error_list').html('')
+            $('#error_list').removeClass('alert alert-danger')
+
+            $('#modal-form form')[0].reset()
+
+            $.get(url)
+                .done((response) => {
+                    $('#nama').val(response.nama)
+                    $('#telepon').val(response.telepon)
+                    $('#alamat').val(response.alamat)
+                })
+
+        }
 
         function deleteData(url) {
             if (confirm('Apakah anda yakin menghapus data ini?')) {

@@ -88,11 +88,11 @@
                     console.log(response);
                     $('#nama').val(response.nama_produk)
                     $('#kategori').val(response.id_kategori)
-                    $('#nama_kategori').val(response.merk)
-                    $('#nama_kategori').val(response.harga_beli)
-                    $('#nama_kategori').val(response.harga_jual)
-                    $('#nama_kategori').val(response.diskon)
-                    $('#nama_kategori').val(response.stock)
+                    $('#merk').val(response.merk)
+                    $('#harga_beli').val(response.harga_beli)
+                    $('#harga_jual').val(response.harga_jual)
+                    $('#diskon').val(response.diskon)
+                    $('#stok').val(response.stock)
                 })
         }
 
@@ -121,7 +121,6 @@
                     $('.checkMultiple:checked').each(function(i) {
                         id.push($(this).data('id'))
                     })
-
                     $.ajax({
                             url: url,
                             type: 'DELETE',
