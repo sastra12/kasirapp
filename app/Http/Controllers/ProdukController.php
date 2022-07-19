@@ -148,10 +148,16 @@ class ProdukController extends Controller
      * @param  int  $id_kategori
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id_kategori)
+    public function update(Request $request, $id_produk)
     {
         $validated = Validator::make($request->all(), [
-            'nama_kategori' => 'required',
+            'nama' => 'required|unique:produk,nama_produk',
+            'kategori' => 'required',
+            'merk' => 'nullable',
+            'harga_beli' => 'required',
+            'harga_jual' => 'required',
+            'diskon' => 'required',
+            'stok' => 'required'
         ]);
         if ($validated->fails()) {
             return response()->json([
@@ -159,8 +165,14 @@ class ProdukController extends Controller
                 'errors' => $validated->messages()
             ]);
         } else {
-            $data = Kategori::find($id_kategori);
-            $data->nama_kategori = $request->nama_kategori;
+            $data = Produk::find($id_produk);
+            $data->id_kategori = $request->kategori;
+            $data->nama_produk = $request->nama;
+            $data->merk = $request->merk;
+            $data->harga_beli = $request->harga_beli;
+            $data->harga_jual = $request->harga_jual;
+            $data->diskon = $request->diskon;
+            $data->stock = $request->stok;
             $data->save();
             return response()->json([
                 'status' => 'Success',

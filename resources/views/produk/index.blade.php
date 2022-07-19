@@ -87,7 +87,7 @@
                 .done((response) => {
                     console.log(response);
                     $('#nama').val(response.nama_produk)
-                    $('#kategori').val(response.id_kategori)
+                    $('#id_kategori').val(response.id_kategori)
                     $('#merk').val(response.merk)
                     $('#harga_beli').val(response.harga_beli)
                     $('#harga_jual').val(response.harga_jual)
