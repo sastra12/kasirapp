@@ -35,7 +35,7 @@ class ProdukController extends Controller
             ->addIndexColumn()
             ->addColumn('select_all', function ($listdata) {
                 return '<div class="form-check">
-                <input class="form-check-input" type="checkbox" name="id_produk[]" value="' . $listdata->id_produk . '" id="flexCheckDefault">
+                <input class="form-check-input checkMultiple" type="checkbox" name="id_produk[]" data-id="' . $listdata->id_produk . '">
               </div>';
             })
             // buat yang didalam kolom
@@ -183,9 +183,9 @@ class ProdukController extends Controller
 
     public function deleteSelected(Request $request)
     {
-        foreach ($request->id_produk as $id) {
+        foreach ($request->id as $id) {
             $produk = Produk::find($id);
             $produk->delete();
-        }
+        };
     }
 }

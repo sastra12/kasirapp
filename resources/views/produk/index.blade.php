@@ -26,28 +26,25 @@
 
 
                     <div class="card-body table-responsive">
-                        <form action="" method="post" class="form-produk">
-                            @csrf
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>
-                                            <input type="checkbox" name="select_all" id="select_all">
-                                        </th>
-                                        <th scope="col" width="5%">No</th>
-                                        <th scope="col">Kode Produk</th>
-                                        <th scope="col">Nama Produk</th>
-                                        <th scope="col">Kategori</th>
-                                        <th scope="col">Merk</th>
-                                        <th scope="col">Harga Beli</th>
-                                        <th scope="col">Harga Jual</th>
-                                        <th scope="col">Diskon</th>
-                                        <th scope="col">Stok</th>
-                                        <th scope="col" width="15%">Aksi</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </form>
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" name="select_all" id="select_all">
+                                    </th>
+                                    <th scope="col" width="5%">No</th>
+                                    <th scope="col">Kode Produk</th>
+                                    <th scope="col">Nama Produk</th>
+                                    <th scope="col">Kategori</th>
+                                    <th scope="col">Merk</th>
+                                    <th scope="col">Harga Beli</th>
+                                    <th scope="col">Harga Jual</th>
+                                    <th scope="col">Diskon</th>
+                                    <th scope="col">Stok</th>
+                                    <th scope="col" width="15%">Aksi</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -116,14 +113,22 @@
         }
 
         function deleteSelected(url) {
-            if ($('input:checked').length >= 1) {
-                if (confirm('Yakin ingin menghapus data?')) {
+            if ($('.checkMultiple:checked').length == 0) {
+                alert('Minimal pilih satu data')
+            } else {
+                if (confirm('Yakin hapus data terpilih?')) {
+                    let id = [];
+                    $('.checkMultiple:checked').each(function(i) {
+                        id.push($(this).data('id'))
+                    })
+
                     $.ajax({
                             url: url,
-                            method: 'DELETE',
-                            data: $('.form-produk').serialize()
-                        })
-                        .done((response) => {
+                            type: 'DELETE',
+                            data: {
+                                id: id
+                            }
+                        }).done((response) => {
                             table.ajax.reload();
                         })
                         .fail((errors) => {
@@ -131,9 +136,8 @@
                             return;
                         });
                 }
-            } else {
-                alert("Choose at least one data")
             }
+
         }
 
         $(document).ready(function() {
@@ -156,7 +160,8 @@
                         data: 'select_all',
                         name: 'select_all',
                         searchable: false,
-                        sortable: false
+                        sortable: false,
+                        orderable: false
                     }, {
                         // buat penomoran
                         data: 'DT_RowIndex',
@@ -226,9 +231,13 @@
                     })
             })
 
-            // checked all
-            $('#select_all').on('click', function(e) {
-                $('input:checkbox').prop('checked', this.checked);
+            // checked selected
+            $("#select_all").on('click', function() {
+                if ($(this).is(':checked')) {
+                    $(".checkMultiple").prop('checked', true)
+                } else {
+                    $(".checkMultiple").prop('checked', false)
+                }
             })
         });
     </script>
