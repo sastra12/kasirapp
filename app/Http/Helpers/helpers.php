@@ -51,4 +51,9 @@ function kode_produk($value, $threshold = null)
     return sprintf("%0" . $threshold . "s", $value);
 }
 
+function kode_member($value, $threshold = null)
+{
+    return sprintf("%0" . $threshold . "s", $value);
+}
+
 ?>

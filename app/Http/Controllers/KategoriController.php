@@ -20,7 +20,7 @@ class KategoriController extends Controller
         return view('kategori.index');
     }
 
-    public function data(Request $request)
+    public function data()
     {
         $listdata = Kategori::all();
         return Datatables::of($listdata)
@@ -58,6 +58,7 @@ class KategoriController extends Controller
         $validated = Validator::make($request->all(), [
             'nama_kategori' => 'required',
         ]);
+
         if ($validated->fails()) {
             return response()->json([
                 'status' => 'Failed added',
