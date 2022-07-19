@@ -66,7 +66,8 @@
             $('#error_list').html('')
             $('#error_list').removeClass('alert alert-danger')
 
-            $('#modal-form form')[0].reset()
+            $('#modal-form form').attr('action', url)
+            $('#modal-form [name=_method]').val('put');
 
             $.get(url)
                 .done((response) => {

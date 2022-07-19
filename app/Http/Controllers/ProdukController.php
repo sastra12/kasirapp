@@ -151,7 +151,7 @@ class ProdukController extends Controller
     public function update(Request $request, $id_produk)
     {
         $validated = Validator::make($request->all(), [
-            'nama' => 'required|unique:produk,nama_produk',
+            'nama' => 'required',
             'kategori' => 'required',
             'merk' => 'nullable',
             'harga_beli' => 'required',

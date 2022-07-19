@@ -28,7 +28,7 @@
                     </div>
                     <div class="form-group">
                         <label for="alamat">Alamat</label>
-                        <textarea class="form-control" id="alamat" rows="3"></textarea>
+                        <textarea class="form-control" id="alamat" rows="3" name="alamat"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Simpan</button>

@@ -80,7 +80,29 @@ class MemberController extends Controller
 
 
     public function update(Request $request, Member $member)
-    { }
+    {
+        $validated = Validator::make($request->all(), [
+            'nama' => 'required',
+            'telepon' => 'numeric',
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json([
+                'status' => 'Failed added',
+                'errors' => $validated->messages()
+            ]);
+        } else {
+            // ddd($member);
+            $member->nama = $request->nama;
+            $member->alamat = $request->alamat;
+            $member->telepon = $request->telepon;
+            $member->save();
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Success Updated Data'
+            ]);
+        }
+    }
 
 
     public function destroy(Member $member)
