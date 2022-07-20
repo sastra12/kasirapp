@@ -129,6 +129,10 @@
                             }
                         }).done((response) => {
                             table.ajax.reload();
+                            // biar tidak checked lagi
+                            if ($("#select_all").is(':checked')) {
+                                $("#select_all").prop('checked', false)
+                            }
                         })
                         .fail((errors) => {
                             alert('Tidak dapat menghapus data');

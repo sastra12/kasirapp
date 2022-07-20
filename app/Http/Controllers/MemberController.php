@@ -51,9 +51,9 @@ class MemberController extends Controller
             $member = Member::latest()->first();
             if ($member == null) {
                 // M001
-                $request['kode_member'] = 'M' . kode_member(1, 3);
+                $request['kode_member'] = 'M' . kode_produk_member(1, 3);
             } else {
-                $request['kode_member'] = 'M' . kode_member((int) substr($member->kode_member, 3) + 1, 3);
+                $request['kode_member'] = 'M' . kode_produk_member((int) substr($member->kode_member, 3) + 1, 3);
             }
 
             $data = new Member();

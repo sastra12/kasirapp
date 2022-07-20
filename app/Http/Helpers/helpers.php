@@ -46,14 +46,11 @@ function format_tanggal($tgl)
     return $text;
 }
 
-function kode_produk($value, $threshold = null)
+function kode_produk_member($value, $threshold = null)
 {
     return sprintf("%0" . $threshold . "s", $value);
 }
 
-function kode_member($value, $threshold = null)
-{
-    return sprintf("%0" . $threshold . "s", $value);
-}
+
 
 ?>

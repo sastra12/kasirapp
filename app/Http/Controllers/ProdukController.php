@@ -97,9 +97,9 @@ class ProdukController extends Controller
         } else {
             $produk = Produk::latest()->first();
             if ($produk == null) {
-                $request['kode_produk'] = 'P' . kode_produk(1, 4);
+                $request['kode_produk'] = 'P' . kode_produk_member(1, 4);
             } else {
-                $request['kode_produk'] = 'P' . kode_produk((int) $produk->id_produk + 1, 4);
+                $request['kode_produk'] = 'P' . kode_produk_member((int) $produk->kode_produk + 1, 4);
             }
             $data = new Produk();
             $data->id_kategori = $request->kategori;
