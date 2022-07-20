@@ -4,6 +4,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,4 +39,8 @@ Route::group(['middleware' => 'auth'], function () {
     // Member
     Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
     Route::resource('/member', MemberController::class);
+
+    // Supplier
+    Route::get('/supplier/data', [SupplierController::class, 'data'])->name('supplier.data');
+    Route::resource('/supplier', SupplierController::Class);
 });

@@ -85,7 +85,6 @@
 
             $.get(url)
                 .done((response) => {
-                    console.log(response);
                     $('#nama').val(response.nama_produk)
                     $('#id_kategori').val(response.id_kategori)
                     $('#merk').val(response.merk)
