@@ -23,8 +23,6 @@
                         <button onclick="deleteSelected('{{ route('produk.delete_selected') }}')"
                             class="btn btn-danger btn-xs"><i class="fa fa-plus-trash">Hapus Terpilih</i></button>
                     </div>
-
-
                     <div class="card-body table-responsive">
                         <table class="table table-striped">
                             <thead>
