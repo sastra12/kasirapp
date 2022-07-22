@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use App\Models\Supplier;
+use App\Models\PembelianDetail;
 use Illuminate\Http\Request;
 
 class PembelianDetailController extends Controller
@@ -58,7 +59,19 @@ class PembelianDetailController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $produk = Produk::where('id_produk', $request->id_produk)->first();
+        if (!$produk) {
+            return response()->json('Gagal disimpan', 400);
+        }
+        $detail = new PembelianDetail();
+        $detail->id_pembelian = $request->id_pembelian;
+        $detail->id_produk = $produk->id_produk;
+        $detail->harga_beli = $produk->harga_beli;
+        $detail->jumlah = 1;
+        $detail->subtotal = $produk->harga_beli;
+        $detail->save();
+
+        return response()->json('Data berhasil disimpan', 200);
     }
 
     /**

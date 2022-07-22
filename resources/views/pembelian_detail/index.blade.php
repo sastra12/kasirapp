@@ -32,24 +32,28 @@
                         </table>
                     </div>
                     <div class="card-body table-responsive">
-                        <div class="form-group">
-                            <div class="input-group mb-3 col-4">
-                                <input type="text" class="form-control" placeholder="Kode Produk"
-                                    aria-label="Example text with button addon" aria-describedby="button-addon1">
-                                <button onclick="showProduk()" class="btn btn-outline-secondary" type="button"
-                                    id="button-addon1">Button</button>
+                        <form class="form-produk">
+                            @csrf
+                            <div class="form-group">
+                                <div class="input-group mb-3 col-4">
+                                    <input type="hidden" name="id_produk" id="id_produk">
+                                    <input type="hidden" name="id_pembelian" id="id_pembelian" value="{{ $id_pembelian }}">
+                                    <input type="text" class="form-control" placeholder="Kode Produk"
+                                        aria-label="Example text with button addon" aria-describedby="button-addon1">
+                                    <button onclick="showProduk()" class="btn btn-outline-secondary" type="button"
+                                        id="button-addon1">Button</button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col" width="5%">No</th>
-                                    <th scope="col">Tanggal</th>
-                                    <th scope="col">Supplier</th>
-                                    <th scope="col">Total Item</th>
-                                    <th scope="col">Total Harga</th>
-                                    <th scope="col">Diskon</th>
-                                    <th scope="col">Total Bayar</th>
+                                    <th scope="col">Kode </th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">Harga</th>
+                                    <th scope="col">Jumlah</th>
+                                    <th scope="col">Subtotal</th>
                                     <th scope="col" width="15%">Aksi</th>
                                 </tr>
                             </thead>
@@ -70,25 +74,25 @@
             $('#modal-produk').modal('show')
         }
 
-        function chooseSuplier(url) {
-            // buat mengosongkan error listnya terlebih dahulu
-            $('#error_list').html('')
-            $('#error_list').removeClass('alert alert-danger')
+        function hideProduk() {
+            $('#modal-produk').modal('hide')
+        }
 
-            $('#modal-form').modal('show')
-            $('.modal-title').html('Edit Data')
-            // buat aksi ke method update
+        function pilihProduk(id, kode) {
+            $('#id_produk').val(id)
+            $('#kode_produk').val(kode)
+            hideProduk()
+            addItem()
+        }
 
-            $('#modal-form form').attr('action', url);
-            $('#modal-form [name=_method]').val('put');
-
-            $.get(url)
+        function addItem() {
+            $.post('{{ route('pembelian-detail.store') }}', $('.form-produk').serialize())
                 .done((response) => {
-                    $('#nama').val(response.nama)
-                    $('#telepon').val(response.telepon)
-                    $('#alamat').val(response.alamat)
-                })
 
+                })
+                .fail((errors) => {
+                    alert('Tidak dapat menyimpan data')
+                })
         }
 
         function deleteData(url) {
@@ -120,27 +124,6 @@
                 "aaSorting": [],
 
             })
-
-            // Response when success or failed when submit button
-            // $('#modal-form form').on('submit', function(e) {
-            //     e.preventDefault()
-            //     $.post($('#modal-form form').attr('action'), $('#modal-form form').serialize())
-            //         .done((response) => {
-            //             if (response.message == 'Success Added Data' || response.message ==
-            //                 'Success Updated Data') {
-            //                 $('#modal-form').modal('hide');
-            //                 alert(response.message)
-            //                 table.ajax.reload()
-            //             } else if (response.status == 'Failed added' || response.status ==
-            //                 'Failed updated') {
-            //                 $('#error_list').html('')
-            //                 $('#error_list').addClass('alert alert-danger')
-            //                 $.each(response.errors, function(key, value) {
-            //                     $('#error_list').append('<li>' + value + '</li>')
-            //                 })
-            //             }
-            //         })
-            // })
         })
     </script>
 @endpush

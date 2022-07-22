@@ -28,7 +28,8 @@
                                     <td>{{ $item->nama_produk }}</td>
                                     <td>{{ $item->harga_beli }}</td>
                                     <td>
-                                        <a href="" class="btn btn-primary btn-xs">Pilih</a>
+                                        <a onclick="pilihProduk('{{ $item->id_produk }}', '{{ $item->kode_produk }}')"
+                                            href="#" class="btn btn-primary btn-xs">Pilih</a>
                                     </td>
                                 </tr>
                             @endforeach
