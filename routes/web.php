@@ -6,6 +6,8 @@ use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PengeluaranController;
+use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\PembelianDetailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,4 +50,18 @@ Route::group(['middleware' => 'auth'], function () {
     // Pengeluaran
     Route::get('/pengeluaran/data', [PengeluaranController::class, 'data'])->name('pengeluaran.data');
     Route::resource('/pengeluaran', PengeluaranController::Class);
+
+    // Pembelian
+    Route::get('/pembelian/data', [PembelianController::class, 'data'])->name('pembelian.data');
+    Route::get('/pembelian/supplier', [PembelianController::class, 'getSupplier'])->name('pembelian.supplier');
+    Route::get('/pembelian/{id}/create', [PembelianController::class, 'create'])->name('pembelian.create');
+    Route::resource('/pembelian', PembelianController::class)
+        ->except('create');
+    Route::get('/pembelian-detail/data', [PembelianDetailController::class, 'data'])->name('pembelian-detail.data');
+    Route::resource('/pembelian-detail', PembelianDetailController::class)
+        ->except('create', 'show', 'edit');
+
+    // Penjualan
+    // Route::get('/pembelian/data', [PembelianController::class, 'data'])->name('pembelian.data');
+    // Route::resource('/pembelian', PembelianController::Class);
 });

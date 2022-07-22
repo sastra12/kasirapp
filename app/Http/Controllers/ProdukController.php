@@ -24,7 +24,7 @@ class ProdukController extends Controller
         return view('produk.index', compact('kategori'));
     }
 
-    public function data(Request $request)
+    public function data()
     {
         $listdata = Produk::leftJoin('kategori', 'kategori.id_kategori', '=', 'produk.id_kategori')
             ->select('produk.*', 'kategori.nama_kategori')
@@ -97,9 +97,9 @@ class ProdukController extends Controller
         } else {
             $produk = Produk::latest()->first();
             if ($produk == null) {
-                $request['kode_produk'] = 'P' . kode_produk_member(1, 4);
+                $request['kode_produk'] = 'P' . kode_produk_member(1, 3);
             } else {
-                $request['kode_produk'] = 'P' . kode_produk_member((int) $produk->kode_produk + 1, 4);
+                $request['kode_produk'] = 'P' . kode_produk_member((int) substr($produk->kode_produk, 3) + 1, 3);
             }
             $data = new Produk();
             $data->id_kategori = $request->kategori;

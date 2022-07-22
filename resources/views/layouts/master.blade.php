@@ -106,8 +106,7 @@
     <script src="{{ asset('AdminLTE-3/plugins/moment/moment.min.js') }}"></script>
     <script src="{{ asset('AdminLTE-3/plugins/daterangepicker/daterangepicker.js') }}"></script>
     <!-- Tempusdominus Bootstrap 4 -->
-    <script src="{{ asset('AdminLTE-3/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}">
-    </script>
+    <script src="{{ asset('AdminLTE-3/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js') }}"></script>
     <!-- Summernote -->
     <script src="{{ asset('AdminLTE-3/plugins/summernote/summernote-bs4.min.js') }}"></script>
     <!-- overlayScrollbars -->
