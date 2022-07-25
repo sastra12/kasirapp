@@ -3,7 +3,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Pilih Supplier</h5>
+                <h5 class="modal-title">Pilih Produk</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -28,7 +28,7 @@
                                     <td>{{ $item->nama_produk }}</td>
                                     <td>{{ $item->harga_beli }}</td>
                                     <td>
-                                        <a onclick="pilihProduk('{{ $item->id_produk }}', '{{ $item->kode_produk }}')"
+                                        <a onclick="pilihProduk('{{ $item->id_produk }}', '{{ $item->kode_produk }}',)"
                                             href="#" class="btn btn-primary btn-xs">Pilih</a>
                                     </td>
                                 </tr>

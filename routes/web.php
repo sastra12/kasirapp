@@ -8,6 +8,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PembelianDetailController;
+use App\Http\Controllers\PenjualanController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -64,6 +65,6 @@ Route::group(['middleware' => 'auth'], function () {
         ->except('create', 'show', 'edit');
 
     // Penjualan
-    // Route::get('/pembelian/data', [PembelianController::class, 'data'])->name('pembelian.data');
-    // Route::resource('/pembelian', PembelianController::Class);
+    Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
+    Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
 });

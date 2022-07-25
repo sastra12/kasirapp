@@ -39,6 +39,7 @@ class PembelianController extends Controller
      */
     public function create($id)
     {
+        // return $id;
         $pembelian = new Pembelian();
         $pembelian->id_supplier = $id;
         $pembelian->total_item = 0;
@@ -48,7 +49,8 @@ class PembelianController extends Controller
         $pembelian->save();
 
         session(['id_pembelian' => $pembelian->id_pembelian]);
-        session(['id_supplier' => $pembelian->id_supplier]);
+        // id => 1
+        session(['id_supplier' => $id]);
 
         return redirect()->route('pembelian-detail.index');
     }

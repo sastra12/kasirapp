@@ -16,14 +16,15 @@ class PembelianDetailController extends Controller
      */
     public function index()
     {
-        $id_pembelian = session('id_pembelian');
+        // $id_pembelian = session('id_pembelian');
         $produk = Produk::orderBy('nama_produk')->get();
         $supplier = Supplier::find(session('id_supplier'));
         if (!$supplier) {
             abort(404);
         }
         // return session('id_supplier');
-        return view('pembelian_detail.index', compact('id_pembelian', 'produk', 'supplier'));
+        // return view('pembelian_detail.index', compact('id_pembelian', 'produk', 'supplier'));
+        return view('pembelian_detail.index', compact('produk', 'supplier'));
     }
 
     /**
@@ -37,6 +38,11 @@ class PembelianDetailController extends Controller
         $detail = PembelianDetail::with('produk')
             ->where('id_pembelian', $id)
             ->get();
+        $data = [];
+        $total = 0;
+        $total_item = 0;
+
+
         return datatables($detail)
             ->addIndexColumn()
             ->addColumn('nama_produk', function ($detail) {
@@ -74,6 +80,7 @@ class PembelianDetailController extends Controller
      */
     public function store(Request $request)
     {
+        // ddd($request);
         $produk = Produk::where('id_produk', $request->id_produk)->first();
         if (!$produk) {
             return response()->json('Gagal disimpan', 400);

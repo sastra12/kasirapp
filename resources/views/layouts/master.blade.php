@@ -30,7 +30,9 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- DataTables -->
     <link rel="stylesheet" href="{{ asset('AdminLTE-3/plugins/datatables-bs4/css/dataTables.bootstrap4.css') }}">
+    @stack('css')
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
 
 </head>
 
@@ -94,12 +96,12 @@
     <script src="{{ asset('AdminLTE-3/plugins/chart.js/Chart.min.js') }}"></script>
 
     <!-- PAGE SCRIPTS -->
-    <script src="{{ asset('AdminLTE-3/dist/js/pages/dashboard2.js') }}"></script>
+    {{-- <script src="{{ asset('AdminLTE-3/dist/js/pages/dashboard2.js') }}"></script> --}}
     <!-- Sparkline -->
     <script src="{{ asset('AdminLTE-3/plugins/sparklines/sparkline.js') }}"></script>
     <!-- JQVMap -->
-    <script src="{{ asset('AdminLTE-3/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
-    <script src="{{ asset('AdminLTE-3/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
+    {{-- <script src="{{ asset('AdminLTE-3/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+    <script src="{{ asset('AdminLTE-3/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script> --}}
     <!-- jQuery Knob Chart -->
     <script src="{{ asset('AdminLTE-3/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
     <!-- daterangepicker -->
@@ -117,7 +119,7 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('AdminLTE-3/dist/js/adminlte.js') }}"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    <script src="{{ asset('AdminLTE-3/dist/js/pages/dashboard.js') }}"></script>
+    {{-- <script src="{{ asset('AdminLTE-3/dist/js/pages/dashboard.js') }}"></script> --}}
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('AdminLTE-3/dist/js/demo.js') }}"></script>
     @stack('script')
