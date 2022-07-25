@@ -32,19 +32,34 @@ class PembelianDetailController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function data()
-    // {
-    //     $produk = Produk::orderBy('nama_produk')->get();
-    //     return datatables($produk)
-    //         ->addIndexColumn()
-    //         // ->addColumn('action', function ($supplier) {
-    //         //     return '
-    //         //     <a href="/pembelian/' . $supplier->id_supplier . '/create" class="btn btn-primary btn-xs">Pilih</a>
-    //         //     ';
-    //         // })
-    //         // ->rawColumns(['action'])
-    //         ->make(true);
-    // }
+    public function data($id)
+    {
+        $detail = PembelianDetail::with('produk')
+            ->where('id_pembelian', $id)
+            ->get();
+        return datatables($detail)
+            ->addIndexColumn()
+            ->addColumn('nama_produk', function ($detail) {
+                return $detail->produk->nama_produk;
+            })
+            ->addColumn('kode_produk', function ($detail) {
+                return
+                    '<span class="badge badge-success">' .  $detail->produk->kode_produk . '</span>';
+            })
+            ->addColumn('action', function ($detail) {
+                return '
+                <button onclick="deleteData(`' . route('pembelian-detail.destroy', $detail->id_pembelian_detail) . '`)" class="btn btn-xs btn-danger">Delete</button>
+                ';
+            })
+            ->addColumn('harga_beli', function ($detail) {
+                return 'Rp. ' . format_uang($detail->harga_beli);
+            })
+            ->addColumn('subtotal', function ($detail) {
+                return 'Rp ' . format_uang($detail->subtotal);
+            })
+            ->rawColumns(['action', 'kode_produk'])
+            ->make(true);
+    }
 
     public function create()
     {
@@ -116,6 +131,8 @@ class PembelianDetailController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = PembelianDetail::find($id);
+        $data->delete();
+        return response()->json(null, 204);
     }
 }

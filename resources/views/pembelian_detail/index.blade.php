@@ -45,7 +45,7 @@
                                 </div>
                             </div>
                         </form>
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="pembelian_detail">
                             <thead>
                                 <tr>
                                     <th scope="col" width="5%">No</th>
@@ -88,7 +88,7 @@
         function addItem() {
             $.post('{{ route('pembelian-detail.store') }}', $('.form-produk').serialize())
                 .done((response) => {
-
+                    tableProduk.ajax.reload()
                 })
                 .fail((errors) => {
                     alert('Tidak dapat menyimpan data')
@@ -102,7 +102,7 @@
                         type: 'DELETE',
                     })
                     .done((response) => {
-                        table.ajax.reload();
+                        tableProduk.ajax.reload();
                     })
                     .fail((errors) => {
                         alert('Tidak dapat menghapus data');
@@ -118,11 +118,51 @@
                 }
             });
 
+            table = $('#table_produk').DataTable();
+
             // tampilkan produk dengan client side
-            tableProduk = $('#table_produk').DataTable({
+            tableProduk = $('#pembelian_detail').DataTable({
                 // buat menghilangkan sortable pada nomor
                 "aaSorting": [],
-
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{ route('pembelian-detail.data', $id_pembelian) }}',
+                    type: 'GET'
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        searchable: false,
+                        sortable: false,
+                    },
+                    {
+                        data: 'kode_produk',
+                        name: 'kode_produk'
+                    },
+                    {
+                        data: 'nama_produk',
+                        name: 'nama_produk'
+                    },
+                    {
+                        data: 'harga_beli',
+                        name: 'harga_beli'
+                    },
+                    {
+                        data: 'jumlah',
+                        name: 'jumlah'
+                    },
+                    {
+                        data: 'subtotal',
+                        name: 'subtotal'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
             })
         })
     </script>

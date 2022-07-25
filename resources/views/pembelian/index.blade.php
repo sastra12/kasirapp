@@ -16,7 +16,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <button onclick="addForm()" class="btn btn-success btn-xs"><i class="fa fa-plus-circle">Transaksi
+                        <button onclick="showSupplier()" class="btn btn-success btn-xs"><i class="fa fa-plus-circle">Transaksi
                                 Baru</i></button>
                     </div>
                     <div class="card-body table-responsive">
@@ -46,7 +46,7 @@
     <script>
         let table, tableSupplier;
 
-        function addForm() {
+        function showSupplier() {
             $('#modal-supplier').modal('show')
         }
 
@@ -114,27 +114,6 @@
                     }
                 ]
             })
-
-            // Response when success or failed when submit button
-            // $('#modal-form form').on('submit', function(e) {
-            //     e.preventDefault()
-            //     $.post($('#modal-form form').attr('action'), $('#modal-form form').serialize())
-            //         .done((response) => {
-            //             if (response.message == 'Success Added Data' || response.message ==
-            //                 'Success Updated Data') {
-            //                 $('#modal-form').modal('hide');
-            //                 alert(response.message)
-            //                 table.ajax.reload()
-            //             } else if (response.status == 'Failed added' || response.status ==
-            //                 'Failed updated') {
-            //                 $('#error_list').html('')
-            //                 $('#error_list').addClass('alert alert-danger')
-            //                 $.each(response.errors, function(key, value) {
-            //                     $('#error_list').append('<li>' + value + '</li>')
-            //                 })
-            //             }
-            //         })
-            // })
         })
     </script>
 @endpush

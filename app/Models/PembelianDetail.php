@@ -11,4 +11,10 @@ class PembelianDetail extends Model
     protected $table = 'pembelian_detail';
     protected $guarded = [];
     protected $primaryKey = 'id_pembelian_detail';
+
+
+    public function produk()
+    {
+        return $this->hasOne(Produk::class, 'id_produk', 'id_produk');
+    }
 }
