@@ -39,6 +39,14 @@
                 <div class="card">
                     <div class="card-header">
                         Keranjang Belanja
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong> {{ session('success') }}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                     </div>
                     @if (session('cart') == null)
                         <div class="card-body table-responsive">
@@ -72,7 +80,7 @@
                                             <td style="text-align: center;">{{ $item['quantity'] }}</td>
                                             <td style="text-align: center;">{{ $item['price'] * $item['quantity'] }}</td>
                                             <td>
-                                                <a class="btn-danger btn-sm delete" data-id="">
+                                                <a class="btn-danger btn-sm delete" data-id="{{ $key }}">
                                                     <i class="fas fa-trash" style='font-size:12px'></i>
                                                 </a>
                                                 <a class="btn-warning btn-sm reduce" data-id="{{ $key }}">
@@ -142,8 +150,6 @@
             </div>
         </div>
     </div>
-    </div>
-    </div>
 @endsection
 
 @push('script')
@@ -160,6 +166,7 @@
                     method: "post",
                     // dataType: 'json',
                     success: function(data) {
+                        console.log(data)
                         location.reload();
                     }
                 })
@@ -169,6 +176,21 @@
                 const id = $(this).data("id")
                 $.ajax({
                     url: '{{ route('cart.decrement') }}',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        id: id
+                    },
+                    method: "post",
+                    success: function(data) {
+                        location.reload();
+                    }
+                })
+            })
+
+            $('.delete').on('click', function() {
+                const id = $(this).data("id")
+                $.ajax({
+                    url: '{{ route('cart.delete') }}',
                     data: {
                         "_token": "{{ csrf_token() }}",
                         id: id

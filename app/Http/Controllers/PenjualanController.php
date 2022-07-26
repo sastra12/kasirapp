@@ -86,7 +86,9 @@ class PenjualanController extends Controller
 
     public function incrementCart(Request $request)
     {
+        $produk = Produk::find($request->id);
         if ($request->ajax()) {
+
             // mengambil session dengan fungsi get
             $cart = session()->get('cart');
             $cart[$request->id]['quantity'] += 1;
@@ -107,6 +109,15 @@ class PenjualanController extends Controller
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
+        }
+    }
+
+    public function deleteCart(Request $request)
+    {
+        if ($request->ajax()) {
+            $cart = session()->get('cart');
+            unset($cart[$request->id]);
+            session()->put('cart', $cart);
         }
     }
 
