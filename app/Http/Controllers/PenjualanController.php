@@ -94,4 +94,24 @@ class PenjualanController extends Controller
             session()->put('cart', $cart);
         }
     }
+
+    public function decrementCart(Request $request)
+    {
+        if ($request->ajax()) {
+            // mengambil session dengan fungsi get
+            $cart = session()->get('cart');
+            $cart[$request->id]['quantity'] -= 1;
+            // update session cart
+            session()->put('cart', $cart);
+            if ($cart[$request->id]['quantity'] == 0) {
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }
+        }
+    }
+
+    public function store(Request $request)
+    {
+        ddd($request);
+    }
 }

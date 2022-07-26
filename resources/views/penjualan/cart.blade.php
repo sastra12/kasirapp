@@ -32,6 +32,7 @@
         <!-- Main row -->
         @php
             $total = 0;
+            $total_item = 0;
         @endphp
         <div class="row">
             <div class="col-md-8">
@@ -61,6 +62,7 @@
                                     @foreach (session('cart') as $key => $item)
                                         @php
                                             $total += $item['price'] * $item['quantity'];
+                                            $total_item += $item['quantity'];
                                         @endphp
                                         <tr>
                                             <th scope="row">{{ $loop->iteration }}</th>
@@ -73,7 +75,7 @@
                                                 <a class="btn-danger btn-sm delete" data-id="">
                                                     <i class="fas fa-trash" style='font-size:12px'></i>
                                                 </a>
-                                                <a class="btn-warning btn-sm reduce" data-id="">
+                                                <a class="btn-warning btn-sm reduce" data-id="{{ $key }}">
                                                     <i class="fas fa-minus text-white" style='font-size:12px'></i>
                                                 </a>
                                                 <a class="btn-info btn-sm plus" data-id="{{ $key }}">
@@ -89,8 +91,10 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <form action="{{ route('pembelian.store') }}" class="form-pembelian" method="POST">
+                <form action="{{ route('penjualan.store') }}" class="form-pembelian" method="POST">
                     @csrf
+                    <input type="hidden" name="total_item" value="{{ $total_item }}">
+                    <input type="hidden" name="total" value="{{ $total }}">
                     <div class="form-group row">
                         <label for="totalrp" class="col-lg-2 control-label">Total</label>
                         <div class="col-lg-10">
@@ -102,7 +106,7 @@
                         <label for="diskon" class="col-lg-2 control-label">Diskon</label>
                         <div class="col-lg-10">
                             <input type="text" name="diskon" id="diskon" class="form-control form-control-sm"
-                                readonly value="Rp.0">
+                                readonly value="0" min="0">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -122,7 +126,7 @@
                         <label for="kembali" class="col-lg-2 control-label">Kembali</label>
                         <div class="col-lg-10">
                             <input readonly type="text" name="kembali" id="kembali"
-                                class="form-control form-control-sm" value="Rp.0">
+                                class="form-control form-control-sm" value="0" min="0">
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
@@ -155,6 +159,21 @@
                     },
                     method: "post",
                     // dataType: 'json',
+                    success: function(data) {
+                        location.reload();
+                    }
+                })
+            })
+
+            $('.reduce').on('click', function() {
+                const id = $(this).data("id")
+                $.ajax({
+                    url: '{{ route('cart.decrement') }}',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        id: id
+                    },
+                    method: "post",
                     success: function(data) {
                         location.reload();
                     }
