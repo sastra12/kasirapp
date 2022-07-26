@@ -25,6 +25,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::view('/masterone', 'layouts.masterone');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', function () {
@@ -69,4 +70,5 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
     Route::get('/cart', [PenjualanController::class, 'cart'])->name('cart');
     Route::get('/add-to-cart/{id}', [PenjualanController::class, 'addToCart'])->name('add.to.cart');
+    Route::post('/cart/increment', [PenjualanController::class, 'incrementCart'])->name('cart.increment');
 });

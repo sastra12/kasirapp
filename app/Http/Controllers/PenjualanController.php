@@ -27,11 +27,6 @@ class PenjualanController extends Controller
         return Datatables::of($listdata)
             // for number
             ->addIndexColumn()
-            ->addColumn('select_all', function ($listdata) {
-                return '<div class="form-check">
-                <input class="form-check-input checkMultiple" type="checkbox" name="id_produk[]" data-id="' . $listdata->id_produk . '">
-              </div>';
-            })
             // buat yang didalam kolom
             ->addColumn('kode_produk', function ($listdata) {
                 return '<span class="badge badge-success">' . $listdata->kode_produk . '</span>';
@@ -49,7 +44,7 @@ class PenjualanController extends Controller
             ';
             })
             // buat menampilkan
-            ->rawColumns(['action', 'kode_produk', 'select_all'])
+            ->rawColumns(['action', 'kode_produk'])
             ->make(true);
     }
 
@@ -78,8 +73,8 @@ class PenjualanController extends Controller
         //     "price": 7000
         //     },
         // foreach (session('cart') as $key => $item) {
-        //     var_dump($item);
-        // }    
+        //     var_dump($key);
+        // }
         // return (session('cart'));
         return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
@@ -89,69 +84,14 @@ class PenjualanController extends Controller
         return view('penjualan.cart');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function incrementCart(Request $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        if ($request->ajax()) {
+            // mengambil session dengan fungsi get
+            $cart = session()->get('cart');
+            $cart[$request->id]['quantity'] += 1;
+            // update session cart
+            session()->put('cart', $cart);
+        }
     }
 }

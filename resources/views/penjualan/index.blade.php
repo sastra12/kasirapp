@@ -57,17 +57,13 @@
     <script>
         let table;
 
-        function addForm(url) {
-
-        }
-
+        function addForm(url) {}
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
             table = $('.table').DataTable({
                 // buat menghilangkan sortable pada nomor
                 "aaSorting": [],
@@ -114,7 +110,6 @@
                         sortable: false
                     },
                 ]
-
             });
         });
     </script>

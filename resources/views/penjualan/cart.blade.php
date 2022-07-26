@@ -30,6 +30,9 @@
 @section('content')
     <div class="container-fluid">
         <!-- Main row -->
+        @php
+            $total = 0;
+        @endphp
         <div class="row">
             <div class="col-md-8">
                 <div class="card">
@@ -55,9 +58,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $total = 0;
-                                    @endphp
                                     @foreach (session('cart') as $key => $item)
                                         @php
                                             $total += $item['price'] * $item['quantity'];
@@ -76,7 +76,7 @@
                                                 <a class="btn-warning btn-sm reduce" data-id="">
                                                     <i class="fas fa-minus text-white" style='font-size:12px'></i>
                                                 </a>
-                                                <a class="btn-info btn-sm plus" data-id="">
+                                                <a class="btn-info btn-sm plus" data-id="{{ $key }}">
                                                     <i class="fas fa-plus text-white" style='font-size:12px'></i>
                                                 </a>
                                             </td>
@@ -91,11 +91,6 @@
             <div class="col-md-4">
                 <form action="{{ route('pembelian.store') }}" class="form-pembelian" method="POST">
                     @csrf
-                    {{-- <input type="hidden" name="id_pembelian" value="{{ $id_pembelian }}"> --}}
-                    <input type="hidden" name="total" id="total">
-                    <input type="hidden" name="total_item" id="total_item">
-                    <input type="hidden" name="bayar" id="bayar">
-
                     <div class="form-group row">
                         <label for="totalrp" class="col-lg-2 control-label">Total</label>
                         <div class="col-lg-10">
@@ -150,8 +145,21 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            // Kalkulasi Total Harga
-            $('#total_harga')
+            $('.plus').on('click', function() {
+                const id = $(this).data("id")
+                $.ajax({
+                    url: '{{ route('cart.increment') }}',
+                    data: {
+                        "_token": "{{ csrf_token() }}",
+                        id: id
+                    },
+                    method: "post",
+                    // dataType: 'json',
+                    success: function(data) {
+                        location.reload();
+                    }
+                })
+            })
         })
     </script>
 @endpush
