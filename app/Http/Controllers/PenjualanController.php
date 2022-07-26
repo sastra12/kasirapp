@@ -45,12 +45,48 @@ class PenjualanController extends Controller
             // buat yang didalam kolom
             ->addColumn('action', function ($listdata) {
                 return '
-                <button onclick="deleteData(`' . route('produk.destroy', $listdata->id_produk) . '`)" class="btn btn-xs btn-success">Pilih</button>
+                <a href="' . route('add.to.cart', $listdata->id_produk) . '" class="btn btn-xs btn-success">Pilih</a>
             ';
             })
             // buat menampilkan
             ->rawColumns(['action', 'kode_produk', 'select_all'])
             ->make(true);
+    }
+
+    public function addToCart($id)
+    {
+        $produk = Produk::find($id);
+        $cart = session('cart', []);
+        // []
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "name" => $produk->nama_produk,
+                "kode_produk" => $produk->kode_produk,
+                "quantity" => 1,
+                "price" => $produk->harga_jual,
+            ];
+        }
+
+        session()->put('cart', $cart);
+        // return $cart;
+        // "2": {
+        //     "name": "Casablanca",
+        //     "quantity": 1,
+        //     "price": 7000
+        //     },
+        // foreach (session('cart') as $key => $item) {
+        //     var_dump($item);
+        // }    
+        // return (session('cart'));
+        return redirect()->back()->with('success', 'Product added to cart successfully!');
+    }
+
+    public function cart()
+    {
+        return view('penjualan.cart');
     }
 
     /**

@@ -8,7 +8,11 @@
 @section('breadcrumb')
     @parent
 
-    <li class="breadcrumb-item active">Produk</li>
+    @if (session('cart') == null)
+        <a href="{{ route('cart') }}" class="breadcrumb-item active">Cart</a>
+    @else
+        <a href="{{ route('cart') }}" class="breadcrumb-item active">Cart : {{ count(session('cart')) }}</a>
+    @endif
 @endsection
 
 @section('content')
@@ -18,8 +22,14 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <button onclick="addForm('{{ route('produk.store') }}')" class="btn btn-success btn-xs"><i
-                                class="fa fa-plus-circle">Tambah Transaksi</i></button>
+                        @if (session('success'))
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                <strong> {{ session('success') }}</strong>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                     </div>
                     <div class="card-body table-responsive">
                         <table class="table table-striped">
@@ -50,7 +60,6 @@
         function addForm(url) {
 
         }
-
 
         $(document).ready(function() {
             $.ajaxSetup({

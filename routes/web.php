@@ -67,4 +67,6 @@ Route::group(['middleware' => 'auth'], function () {
     // Penjualan
     Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');
     Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
+    Route::get('/cart', [PenjualanController::class, 'cart'])->name('cart');
+    Route::get('/add-to-cart/{id}', [PenjualanController::class, 'addToCart'])->name('add.to.cart');
 });
