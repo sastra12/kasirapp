@@ -156,20 +156,24 @@
     <script>
         $(document).ready(function() {
             $('.plus').on('click', function() {
+
                 const id = $(this).data("id")
                 $.ajax({
-                    url: '{{ route('cart.increment') }}',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        id: id
-                    },
-                    method: "post",
-                    // dataType: 'json',
-                    success: function(data) {
-                        console.log(data)
-                        location.reload();
-                    }
-                })
+                        url: '{{ route('cart.increment') }}',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            id: id
+                        },
+                        method: "post",
+                    })
+                    .done((response) => {
+                        console.log(response)
+                        if (response.message == 'Added Successfully') {
+                            location.reload()
+                        } else if (response.message == 'Stok tidak cukup') {
+                            alert(response.message)
+                        }
+                    })
             })
 
             $('.reduce').on('click', function() {
