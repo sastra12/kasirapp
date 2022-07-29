@@ -107,7 +107,7 @@
                         <label for="totalrp" class="col-lg-2 control-label">Total</label>
                         <div class="col-lg-10">
                             <input readonly type="text" name="totalrp" id="totalrp"
-                                class="form-control form-control-sm" value=" Rp {{ format_uang($total) }}">
+                                class="form-control form-control-sm" value=" {{ $total }}">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -120,8 +120,8 @@
                     <div class="form-group row">
                         <label for="bayar" class="col-lg-2 control-label">Bayar</label>
                         <div class="col-lg-10">
-                            <input readonly type="text" name="bayar" id="bayar"
-                                value=" Rp {{ format_uang($total) }}" class="form-control form-control-sm">
+                            <input readonly type="text" name="bayar" id="bayar" value="{{ $total }}"
+                                class="form-control form-control-sm">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -138,7 +138,7 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-primary btn-sm">Simpan Transaksi</button>
+                        <button type="submit" class="btn btn-primary btn-sm" id="btnSave">Simpan Transaksi</button>
                     </div>
             </div>
         </div>
@@ -156,7 +156,6 @@
     <script>
         $(document).ready(function() {
             $('.plus').on('click', function() {
-
                 const id = $(this).data("id")
                 $.ajax({
                         url: '{{ route('cart.increment') }}',
@@ -168,10 +167,10 @@
                     })
                     .done((response) => {
                         console.log(response)
-                        if (response.message == 'Added Successfully') {
+                        if (response.message == 'Success') {
                             location.reload()
-                        } else if (response.message == 'Stok tidak cukup') {
-                            alert(response.message)
+                        } else if (response.message == 'Failed') {
+                            alert('Stok tidak mencukupi')
                         }
                     })
             })
@@ -205,6 +204,26 @@
                     }
                 })
             })
+
+            $('#diterima').on('input', function() {
+                const total = $('#totalrp').val()
+                const bayar = $('#diterima').val()
+                const kembalian = parseInt(bayar) - parseInt(total)
+
+                if (bayar == null || bayar == '') {
+                    $('#kembali').val(0)
+                } else {
+                    $('#kembali').val(kembalian)
+                }
+
+                if (kembalian < 0) {
+                    $('#btnSave').attr('disabled', 'disabled')
+                } else {
+                    $('#btnSave').removeAttr('disabled')
+                }
+            })
+
+            // ketika tombol button diklik
         })
     </script>
 @endpush

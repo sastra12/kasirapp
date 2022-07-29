@@ -53,9 +53,12 @@ class PenjualanController extends Controller
         $produk = Produk::find($id);
         $cart = session('cart', []);
         // []
-
         if (isset($cart[$id])) {
-            $cart[$id]['quantity']++;
+            if ($produk->stock <= $cart[$id]['quantity']) {
+                return redirect()->back()->with('failed', 'Stok tidak mencukupi');
+            } else {
+                $cart[$id]['quantity']++;
+            }
         } else {
             $cart[$id] = [
                 "name" => $produk->nama_produk,
@@ -93,13 +96,13 @@ class PenjualanController extends Controller
         if ($request->ajax()) {
             if ($produk->stock <= $cart[$request->id]['quantity']) {
                 return response()->json([
-                    'message' => 'Stok tidak cukup'
+                    'message' => 'Failed'
                 ]);
             } else {
                 $cart[$request->id]['quantity'] += 1;
                 // update session cart
                 session()->put('cart', $cart);
-                return response()->json(['message' => 'Added Successfully']);
+                return response()->json(['message' => 'Success']);
             }
         }
     }
