@@ -11,7 +11,4 @@ class Penjualan extends Model
     protected $table = 'penjualan';
     protected $guarded = [];
     protected $primaryKey = 'id_penjualan';
-
-    public function getQuantity($value)
-    { }
 }

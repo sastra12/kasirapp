@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Produk;
+use Auth;
+use Exception;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class PenjualanController extends Controller
 {
@@ -133,6 +136,44 @@ class PenjualanController extends Controller
 
     public function store(Request $request)
     {
-        ddd($request);
+        DB::beginTransaction();
+        try {
+            // tambah ke table penjualan
+            DB::table('penjualan')->insert([
+                'total_item' => $request->total_item,
+                'total_harga' => $request->total,
+                'diskon' => $request->diskon,
+                'bayar' => $request->bayar,
+                'diterima' => $request->diterima,
+                'id_user' => Auth::id()
+            ]);
+
+            $penjualan = DB::table('penjualan')->latest()->first();
+            foreach (session('cart') as $key => $item) {
+                $index = 0;
+                // tambah ke tabel penjualan detail
+                DB::table('penjualan_detail')->insert([
+                    'id_penjualan' => $penjualan->id_penjualan,
+                    'id_produk' => $key,
+                    'harga_jual' => $item['price'],
+                    'jumlah' => $item['quantity'],
+                    'diskon' => 0,
+                    'subtotal' => $item['price'] * $item['quantity']
+                ]);
+
+                $stockproduk = DB::table('produk')->where('id_produk', $key)->get();
+                $quantity = $stockproduk[$index]->stock - $item['quantity'];
+                // return $stockproduk[$index]->stock;
+                DB::table('produk')->where('id_produk', $key)->update([
+                    'stock' => $quantity
+                ]);
+                $index++;
+            }
+            $request->session()->forget('cart');
+            DB::commit();
+            return redirect()->route('penjualan.index');
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 }
