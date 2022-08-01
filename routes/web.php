@@ -34,37 +34,37 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('dashboard');
 
     // Kategori
-    Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data');
-    Route::resource('/kategori', KategoriController::class);
+    Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data')->middleware('CheckRole');
+    Route::resource('/kategori', KategoriController::class)->middleware('CheckRole');
 
     // Produk
-    Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data');
+    Route::get('/produk/data', [ProdukController::class, 'data'])->name('produk.data')->middleware('CheckRole');
     Route::delete('/produk/delete-selected', [ProdukController::class, 'deleteSelected'])->name('produk.delete_selected');
-    Route::resource('/produk', ProdukController::class);
+    Route::resource('/produk', ProdukController::class)->middleware('CheckRole');
 
     // Member
-    Route::get('/member/data', [MemberController::class, 'data'])->name('member.data');
-    Route::resource('/member', MemberController::class);
+    Route::get('/member/data', [MemberController::class, 'data'])->name('member.data')->middleware('CheckRole');
+    Route::resource('/member', MemberController::class)->middleware('CheckRole');
 
     // Supplier
-    Route::get('/supplier/data', [SupplierController::class, 'data'])->name('supplier.data');
-    Route::resource('/supplier', SupplierController::class);
+    Route::get('/supplier/data', [SupplierController::class, 'data'])->name('supplier.data')->middleware('CheckRole');
+    Route::resource('/supplier', SupplierController::class)->middleware('CheckRole');
 
     // Pengeluaran
-    Route::get('/pengeluaran/data', [PengeluaranController::class, 'data'])->name('pengeluaran.data');
-    Route::resource('/pengeluaran', PengeluaranController::class);
+    Route::get('/pengeluaran/data', [PengeluaranController::class, 'data'])->name('pengeluaran.data')->middleware('CheckRole');
+    Route::resource('/pengeluaran', PengeluaranController::class)->middleware('CheckRole');
 
     // Pembelian
-    Route::get('/pembelian/data', [PembelianController::class, 'data'])->name('pembelian.data');
+    Route::get('/pembelian/data', [PembelianController::class, 'data'])->name('pembelian.data')->middleware('CheckRole');
     Route::get('/pembelian/supplier', [PembelianController::class, 'getSupplier'])->name('pembelian.supplier');
     Route::get('/pembelian/{id}/create', [PembelianController::class, 'create'])->name('pembelian.create');
     Route::resource('/pembelian', PembelianController::class)
-        ->except('create');
+        ->except('create')->middleware('CheckRole');
 
     // Pembelian Detail
-    Route::get('/pembelian-detail/{id}/data', [PembelianDetailController::class, 'data'])->name('pembelian-detail.data');
+    Route::get('/pembelian-detail/{id}/data', [PembelianDetailController::class, 'data'])->name('pembelian-detail.data')->middleware('CheckRole');
     Route::resource('/pembelian-detail', PembelianDetailController::class)
-        ->except('create', 'show', 'edit');
+        ->except('create', 'show', 'edit')->middleware('CheckRole');
 
     // Penjualan
     Route::get('/penjualan/data', [PenjualanController::class, 'data'])->name('penjualan.data');

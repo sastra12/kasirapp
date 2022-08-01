@@ -34,56 +34,68 @@
                          </p>
                      </a>
                  </li>
-                 <li class="nav-header">EXAMPLES</li>
-                 <li class="nav-item">
-                     <a href="{{ route('kategori.index') }}" class="nav-link">
-                         <i class="fa fa-cube"></i>
-                         <p>
-                             Kategori
-                         </p>
-                     </a>
-                 </li>
-                 <li class="nav-item">
-                     <a href="{{ route('produk.index') }}" class="nav-link">
-                         <i class="fa fa-cubes"></i>
-                         <p>
-                             Produk
-                         </p>
-                     </a>
-                 </li>
-                 <li class="nav-item">
-                     <a href="{{ route('member.index') }}" class="nav-link">
-                         <i class="fa fa-id-card"></i>
-                         <p>
-                             Member
-                         </p>
-                     </a>
-                 </li>
-                 <li class="nav-item">
-                     <a href="{{ route('supplier.index') }}" class="nav-link">
-                         <i class="fa fa-truck"></i>
-                         <p>
-                             Supplier
-                         </p>
-                     </a>
-                 </li>
+                 @can('admin')
+                     <li class="nav-header">EXAMPLES</li>
+                     <li class="nav-item">
+                         <a href="{{ route('kategori.index') }}" class="nav-link">
+                             <i class="fa fa-cube"></i>
+                             <p>
+                                 Kategori
+                             </p>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="{{ route('produk.index') }}" class="nav-link">
+                             <i class="fa fa-cubes"></i>
+                             <p>
+                                 Produk
+                             </p>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="{{ route('member.index') }}" class="nav-link">
+                             <i class="fa fa-id-card"></i>
+                             <p>
+                                 Member
+                             </p>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="{{ route('supplier.index') }}" class="nav-link">
+                             <i class="fa fa-truck"></i>
+                             <p>
+                                 Supplier
+                             </p>
+                         </a>
+                     </li>
+                 @endcan
                  <li class="nav-header">TRANSAKSI</li>
-                 <li class="nav-item">
-                     <a href="{{ route('pengeluaran.index') }}" class="nav-link">
-                         <i class="fa fa-credit-card"></i>
-                         <p>
-                             Pengeluaran
-                         </p>
-                     </a>
-                 </li>
-                 <li class="nav-item">
-                     <a href="{{ route('pembelian.index') }}" class="nav-link">
-                         <i class="fa fa-shopping-cart"></i>
-                         <p>
-                             Pembelian
-                         </p>
-                     </a>
-                 </li>
+                 @can('admin')
+                     <li class="nav-item">
+                         <a href="{{ route('pengeluaran.index') }}" class="nav-link">
+                             <i class="fa fa-credit-card"></i>
+                             <p>
+                                 Pengeluaran
+                             </p>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="{{ route('pembelian.index') }}" class="nav-link">
+                             <i class="fa fa-shopping-cart"></i>
+                             <p>
+                                 Pembelian
+                             </p>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="pages/gallery.html" class="nav-link">
+                             <i class="fa fa-cart-arrow-down"></i>
+                             <p>
+                                 Transaksi Penjualan
+                             </p>
+                         </a>
+                     </li>
+                 @endcan
                  <li class="nav-item">
                      <a href="{{ route('penjualan.index') }}" class="nav-link">
                          <i class="fa fa-upload"></i>
@@ -92,40 +104,36 @@
                          </p>
                      </a>
                  </li>
-                 <li class="nav-item">
-                     <a href="pages/gallery.html" class="nav-link">
-                         <i class="fa fa-cart-arrow-down"></i>
-                         <p>
-                             Transaksi Penjualan
-                         </p>
-                     </a>
-                 </li>
-                 <li class="nav-header">Report</li>
-                 <li class="nav-item">
-                     <a href="pages/calendar.html" class="nav-link">
-                         <i class="fa fa-file"></i>
-                         <p>
-                             Laporan
-                         </p>
-                     </a>
-                 </li>
-                 <li class="nav-header">System</li>
-                 <li class="nav-item">
-                     <a href="{{ route('users.index') }}" class="nav-link">
-                         <i class="fa fa-user"></i>
-                         <p>
-                             User
-                         </p>
-                     </a>
-                 </li>
-                 <li class="nav-item">
-                     <a href="pages/gallery.html" class="nav-link">
-                         <i class="fa fa-cog"></i>
-                         <p>
-                             Pengaturan
-                         </p>
-                     </a>
-                 </li>
+
+                 @can('admin')
+                     <li class="nav-header">Report</li>
+                     <li class="nav-item">
+                         <a href="pages/calendar.html" class="nav-link">
+                             <i class="fa fa-file"></i>
+                             <p>
+                                 Laporan
+                             </p>
+                         </a>
+                     </li>
+                     <li class="nav-header">System</li>
+                     <li class="nav-item">
+                         <a href="{{ route('users.index') }}" class="nav-link">
+                             <i class="fa fa-user"></i>
+                             <p>
+                                 User
+                             </p>
+                         </a>
+                     </li>
+                     <li class="nav-item">
+                         <a href="pages/gallery.html" class="nav-link">
+                             <i class="fa fa-cog"></i>
+                             <p>
+                                 Pengaturan
+                             </p>
+                         </a>
+                     </li>
+                 @endcan
+
                  <li class="nav-item">
                      <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit()">
                          <i class="fa fa-cog"></i>
