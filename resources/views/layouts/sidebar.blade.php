@@ -96,15 +96,7 @@
                      <a href="pages/gallery.html" class="nav-link">
                          <i class="fa fa-cart-arrow-down"></i>
                          <p>
-                             Transaksi Lama
-                         </p>
-                     </a>
-                 </li>
-                 <li class="nav-item">
-                     <a href="pages/gallery.html" class="nav-link">
-                         <i class="fa fa-cart-arrow-down"></i>
-                         <p>
-                             Transaksi Baru
+                             Transaksi Penjualan
                          </p>
                      </a>
                  </li>
@@ -119,7 +111,7 @@
                  </li>
                  <li class="nav-header">System</li>
                  <li class="nav-item">
-                     <a href="pages/gallery.html" class="nav-link">
+                     <a href="{{ route('users.index') }}" class="nav-link">
                          <i class="fa fa-user"></i>
                          <p>
                              User

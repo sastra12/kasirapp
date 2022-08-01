@@ -9,6 +9,7 @@ use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PembelianDetailController;
 use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -47,11 +48,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Supplier
     Route::get('/supplier/data', [SupplierController::class, 'data'])->name('supplier.data');
-    Route::resource('/supplier', SupplierController::Class);
+    Route::resource('/supplier', SupplierController::class);
 
     // Pengeluaran
     Route::get('/pengeluaran/data', [PengeluaranController::class, 'data'])->name('pengeluaran.data');
-    Route::resource('/pengeluaran', PengeluaranController::Class);
+    Route::resource('/pengeluaran', PengeluaranController::class);
 
     // Pembelian
     Route::get('/pembelian/data', [PembelianController::class, 'data'])->name('pembelian.data');
@@ -74,4 +75,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/cart/decrement', [PenjualanController::class, 'decrementCart'])->name('cart.decrement');
     Route::post('/cart/delete', [PenjualanController::class, 'deleteCart'])->name('cart.delete');
     Route::post('/penjualan', [PenjualanController::class, 'store'])->name('penjualan.store');
+
+
+    // User
+    Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
+    Route::resource('/users', UserController::class)
+        ->except('show', 'edit', 'update', 'create');
 });
