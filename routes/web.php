@@ -9,6 +9,7 @@ use App\Http\Controllers\PengeluaranController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PembelianDetailController;
 use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -76,6 +77,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/cart/delete', [PenjualanController::class, 'deleteCart'])->name('cart.delete');
     Route::post('/penjualan', [PenjualanController::class, 'store'])->name('penjualan.store');
 
+    // Data Transaksi
+    Route::get('/data-transaksi', [TransaksiController::class, 'data'])->name('data.transaksi');
+    Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi');
+    Route::delete('transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
 
     // User
     Route::get('/users/data', [UserController::class, 'data'])->name('users.data');

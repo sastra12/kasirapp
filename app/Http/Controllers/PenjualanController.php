@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Produk;
 use Auth;
+use Carbon\Carbon;
 use Exception;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
@@ -145,7 +146,8 @@ class PenjualanController extends Controller
                 'diskon' => $request->diskon,
                 'bayar' => $request->bayar,
                 'diterima' => $request->diterima,
-                'id_user' => Auth::id()
+                'id_user' => Auth::id(),
+                'created_at' => Carbon::now()
             ]);
 
             $penjualan = DB::table('penjualan')->latest()->first();
@@ -158,7 +160,8 @@ class PenjualanController extends Controller
                     'harga_jual' => $item['price'],
                     'jumlah' => $item['quantity'],
                     'diskon' => 0,
-                    'subtotal' => $item['price'] * $item['quantity']
+                    'subtotal' => $item['price'] * $item['quantity'],
+                    'created_at' => Carbon::now()
                 ]);
 
                 $stockproduk = DB::table('produk')->where('id_produk', $key)->get();

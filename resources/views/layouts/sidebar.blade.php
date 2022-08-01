@@ -88,10 +88,10 @@
                          </a>
                      </li>
                      <li class="nav-item">
-                         <a href="pages/gallery.html" class="nav-link">
+                         <a href="{{ route('transaksi') }}" class="nav-link">
                              <i class="fa fa-cart-arrow-down"></i>
                              <p>
-                                 Transaksi Penjualan
+                                 Data Transaksi
                              </p>
                          </a>
                      </li>
