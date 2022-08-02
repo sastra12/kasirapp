@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Penjualan;
+use App\Models\PenjualanDetail;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 
@@ -48,10 +50,30 @@ class TransaksiController extends Controller
             // buat yang didalam kolom
             ->addColumn('action', function ($data) {
                 return '
-            <a href="' . route('transaksi.destroy', $data->id_penjualan) . '" class="btn btn-xs btn-success">Pilih</a>';
+            <a href="' . route('transaksi.destroy', $data->id_penjualan) . '" class="btn btn-xs btn-success">Pilih</a>
+            <button onclick="detailData(`' . route('transaksi.show', $data->id_penjualan) . '`)" class="btn btn-xs btn-info">Detail</button>
+            ';
             })
             // buat menampilkan
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+    public function show($id)
+    {
+        $data = DB::table('penjualan_detail as pd')
+            ->leftJoin('produk as p', 'p.id_produk', '=', 'pd.id_produk')
+            ->where('pd.id_penjualan', '=', $id)
+            ->select('p.nama_produk', 'pd.harga_jual', 'pd.jumlah', 'pd.diskon')
+            ->get();
+        return Datatables::of($data)
+            // for number
+            ->addIndexColumn()
+            // buat yang didalam kolom
+            ->addColumn('harga_jual', function ($data) {
+                return format_uang($data->harga_jual);
+            })
+            ->make(true);
+        return response()->json($data);
     }
 }

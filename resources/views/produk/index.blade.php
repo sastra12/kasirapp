@@ -187,18 +187,22 @@
                     {
                         data: 'harga_beli',
                         name: 'harga_beli',
+                        className: 'text-center'
                     },
                     {
                         data: 'harga_jual',
                         name: 'harga_jual',
+                        className: 'text-center'
                     },
                     {
                         data: 'diskon',
                         name: 'diskon',
+                        className: 'text-center'
                     },
                     {
                         data: 'stock',
                         name: 'stock',
+                        className: 'text-center'
                     },
                     {
                         data: 'action',

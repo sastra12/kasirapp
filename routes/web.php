@@ -80,6 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
     // Data Transaksi
     Route::get('/data-transaksi', [TransaksiController::class, 'data'])->name('data.transaksi');
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi');
+    Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
     Route::delete('transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
 
     // User

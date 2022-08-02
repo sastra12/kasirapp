@@ -11,4 +11,9 @@ class Produk extends Model
     protected $table = 'produk';
     protected $guarded = [];
     protected $primaryKey = 'id_produk';
+
+    public function penjualandetail()
+    {
+        return $this->belongsTo(PenjualanDetail::class, 'id_produk', 'id_penjualan_detail');
+    }
 }

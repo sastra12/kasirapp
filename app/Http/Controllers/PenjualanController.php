@@ -174,7 +174,7 @@ class PenjualanController extends Controller
             }
             $request->session()->forget('cart');
             DB::commit();
-            return redirect()->route('penjualan.index');
+            return redirect()->route('transaksi');
         } catch (Exception $e) {
             DB::rollback();
         }

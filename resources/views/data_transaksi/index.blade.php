@@ -18,12 +18,11 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <button onclick="addForm('{{ route('kategori.store') }}')" class="btn btn-success btn-xs"><i
-                                class="fa fa-plus-circle">Tambah</i></button>
+
                     </div>
 
                     <div class="card-body table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="table-transaksi">
                             <thead>
                                 <tr>
                                     <th scope="col" width="5%">No</th>
@@ -43,25 +42,12 @@
             </div>
         </div>
     </div>
-    @includeIf('kategori.form')
+    @includeIf('data_transaksi.penjualan')
 @endsection
 
 @push('script')
     <script>
-        let table;
-
-        function addForm(url) {
-            $('#modal-form').modal('show')
-            $('#modal-form .modal-title').html('Tambah Data Kategori')
-
-            // buat mengosongkan error listnya terlebih dahulu
-            $('#error_list').html('')
-            $('#error_list').removeClass('alert alert-danger')
-
-            $('#modal-form form')[0].reset()
-            $('#modal-form form').attr('action', url)
-            $('#modal-form [name=_method]').val('post')
-        }
+        let table, table_detail;
 
         function deleteData(url) {
             if (confirm('Yakin ingin menghapus data terpilih?')) {
@@ -79,24 +65,45 @@
             }
         }
 
-        function editForm(url) {
-            // buat mengosongkan error listnya terlebih dahulu
-            $('#error_list').html('')
-            $('#error_list').removeClass('alert alert-danger')
+        function detailData(url) {
+            $('#modal-penjualan').modal('show')
 
-            // buat menampilkan modal
-            $('#modal-form').modal('show')
-            $('#modal-form .modal-title').html('Edit Data Kategori')
+            table_detail = $('#detail_transaksi').DataTable({
+                destroy: true,
+                "aaSorting": [],
+                processing: true,
+                autowidth: false,
+                ajax: {
+                    url: url,
+                    type: 'GET'
+                },
+                columns: [{
+                        // buat penomoran
+                        data: 'DT_RowIndex',
+                        searchable: false,
+                        sortable: false
+                    },
+                    {
+                        data: 'nama_produk',
+                    },
+                    {
+                        data: 'harga_jual',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'jumlah',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'diskon',
+                        className: 'text-center'
+                    },
+                ]
+            })
 
-            // buat aksi ke method update
-            $('#modal-form form').attr('action', url);
-            $('#modal-form [name=_method]').val('put');
-
-            $.get(url)
-                .done((response) => {
-                    $('#nama_kategori').val(response.nama_kategori)
-                })
+            table_detail.clear()
         }
+
 
         $(document).ready(function() {
             $.ajaxSetup({
@@ -105,7 +112,8 @@
                 }
             });
 
-            table = $('.table').DataTable({
+            table = $('#table-transaksi').DataTable({
+                "aaSorting": [],
                 processing: true,
                 autowidth: false,
                 ajax: {
@@ -123,15 +131,19 @@
                     },
                     {
                         data: 'total_item',
+                        className: 'text-center'
                     },
                     {
                         data: 'total_harga',
+                        className: 'text-center'
                     },
                     {
                         data: 'diskon',
+                        className: 'text-center'
                     },
                     {
                         data: 'total_bayar',
+                        className: 'text-center'
                     },
                     {
                         data: 'name',

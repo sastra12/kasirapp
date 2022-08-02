@@ -11,4 +11,9 @@ class Penjualan extends Model
     protected $table = 'penjualan';
     protected $guarded = [];
     protected $primaryKey = 'id_penjualan';
+
+    public function penjualandetail()
+    {
+        return $this->hasMany(PenjualanDetail::class, 'id_penjualan', 'id_penjualan_detail');
+    }
 }
