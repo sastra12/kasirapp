@@ -50,8 +50,8 @@ class TransaksiController extends Controller
             // buat yang didalam kolom
             ->addColumn('action', function ($data) {
                 return '
-            <a href="' . route('transaksi.destroy', $data->id_penjualan) . '" class="btn btn-xs btn-success">Pilih</a>
-            <button onclick="detailData(`' . route('transaksi.show', $data->id_penjualan) . '`)" class="btn btn-xs btn-info">Detail</button>
+                <button onclick="deleteData(`' . route('transaksi.destroy', $data->id_penjualan) . '`)" class="btn btn-xs btn-danger">Delete</button>
+                <button onclick="detailData(`' . route('transaksi.show', $data->id_penjualan) . '`)" class="btn btn-xs btn-info">Detail</button>
             ';
             })
             // buat menampilkan
@@ -74,6 +74,16 @@ class TransaksiController extends Controller
                 return format_uang($data->harga_jual);
             })
             ->make(true);
-        return response()->json($data);
+    }
+
+    public function destroy($id)
+    {
+        $penjualan = Penjualan::find($id);
+        $penjualan->delete();
+        // id => 1
+        $penjualan_detail = PenjualanDetail::where('id_penjualan', $id)->get();
+        foreach ($penjualan_detail as $pd) {
+            $pd->delete();
+        }
     }
 }
