@@ -30,6 +30,7 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::view('/masterone', 'layouts.masterone');
 
 Route::group(['middleware' => 'auth'], function () {
+
     Route::get('/dashboard', function () {
         return view('dashboard.index');
     })->name('dashboard');
@@ -81,7 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/data-transaksi', [TransaksiController::class, 'data'])->name('data.transaksi');
     Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi');
     Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
-    Route::delete('transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy');
+    Route::delete('transaksi/{id}', [TransaksiController::class, 'destroy'])->name('transaksi.destroy')->middleware('CheckRole');
 
     // User
     Route::get('/users/data', [UserController::class, 'data'])->name('users.data');

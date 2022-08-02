@@ -18,7 +18,7 @@ class CheckRole
     public function handle(Request $request, Closure $next)
     {
         // jika user level tidak sama 0 atau user belum login
-        if (!Auth::check() || Auth::user()->level !== 0) {
+        if (Auth::user()->level !== 0) {
             abort(403);
         }
         return $next($request);

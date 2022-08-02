@@ -32,7 +32,11 @@
                                     <th scope="col">Diskon</th>
                                     <th scope="col">Total Bayar</th>
                                     <th scope="col">Petugas</th>
-                                    <th scope="col" width="15%">Aksi</th>
+                                    @if (auth()->user()->level == 0)
+                                        <th scope="col" width="15%">Aksi</th>
+                                    @else
+                                        <th scope="col" width="15%">Aksi</th>
+                                    @endif
                                 </tr>
                             </thead>
 

@@ -87,15 +87,8 @@
                              </p>
                          </a>
                      </li>
-                     <li class="nav-item">
-                         <a href="{{ route('transaksi') }}" class="nav-link">
-                             <i class="fa fa-cart-arrow-down"></i>
-                             <p>
-                                 Data Transaksi
-                             </p>
-                         </a>
-                     </li>
                  @endcan
+
                  <li class="nav-item">
                      <a href="{{ route('penjualan.index') }}" class="nav-link">
                          <i class="fa fa-upload"></i>
@@ -104,7 +97,14 @@
                          </p>
                      </a>
                  </li>
-
+                 <li class="nav-item">
+                     <a href="{{ route('transaksi') }}" class="nav-link">
+                         <i class="fa fa-cart-arrow-down"></i>
+                         <p>
+                             Data Transaksi
+                         </p>
+                     </a>
+                 </li>
                  @can('admin')
                      <li class="nav-header">Report</li>
                      <li class="nav-item">
