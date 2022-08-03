@@ -34,27 +34,6 @@ class PembelianController extends Controller
             ->make(true);
     }
 
-    public function cart(Request $request)
-    {
-        $produk = Produk::find($request->id);
-        // return response()->json($produk, 200);
-        $keranjangPembelian = session('cartpembelian', []);
-        // apakah $keranjang sudah diset
-        if (isset($keranjangPembelian[$request->id])) {
-            $keranjangPembelian[$request->id]['quantity']++;
-        } else {
-            $keranjangPembelian[$request->id] = [
-                "name" => $produk->nama_produk,
-                "kode_produk" => $produk->kode_produk,
-                "quantity" => 1,
-                "price" => $produk->harga_beli,
-            ];
-        }
-        // Untuk menyimpan data dalam session
-        session()->put('cartpembelian', $keranjangPembelian);
-        // return session('cartpembelian');
-    }
-
     /**
      * Show the form for creating a new resource.
      *

@@ -38,10 +38,6 @@ class PembelianDetailController extends Controller
         $detail = PembelianDetail::with('produk')
             ->where('id_pembelian', $id)
             ->get();
-        $data = [];
-        $total = 0;
-        $total_item = 0;
-
 
         return datatables($detail)
             ->addIndexColumn()
@@ -70,6 +66,36 @@ class PembelianDetailController extends Controller
     public function create()
     {
         //
+    }
+
+    public function cart(Request $request)
+    {
+        $produk = Produk::find($request->id);
+        // return response()->json($produk, 200);
+        $keranjangPembelian = session('cartpembelian', []);
+        // apakah $keranjang sudah diset
+        if (isset($keranjangPembelian[$request->id])) {
+            $keranjangPembelian[$request->id]['quantity']++;
+        } else {
+            $keranjangPembelian[$request->id] = [
+                "name" => $produk->nama_produk,
+                "kode_produk" => $produk->kode_produk,
+                "quantity" => 1,
+                "price" => $produk->harga_beli,
+            ];
+        }
+        // Untuk menyimpan data dalam session
+        session()->put('cartpembelian', $keranjangPembelian);
+        // return session('cartpembelian');
+    }
+
+    public function deleteCart(Request $request)
+    {
+        if ($request->ajax()) {
+            $cart = session()->get('cartpembelian');
+            unset($cart[$request->id]);
+            session()->put('cartpembelian', $cart);
+        }
     }
 
     /**

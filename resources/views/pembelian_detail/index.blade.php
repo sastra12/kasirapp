@@ -98,7 +98,13 @@
                                                     class="badge badge-success">{{ $item['kode_produk'] }}</span></td>
                                             <td style="text-align:center">{{ $item['name'] }}</td>
                                             <td style="text-align:center">{{ $item['price'] }}</td>
-                                            <td style="text-align:center">{{ $item['quantity'] }}</td>
+                                            <td class="col-sm-1">
+                                                <form action="" method="POST">
+                                                    <input type="number" class="form-control" style="text-align:center"
+                                                        value="{{ $item['quantity'] }}">
+                                                </form>
+                                            </td>
+                                            {{-- <td style="text-align:center">{{ $item['quantity'] }}</td> --}}
                                             <td style="text-align:center">{{ $item['price'] * $item['quantity'] }}</td>
                                             <td>
                                                 <a class="btn-danger btn-sm delete" data-id="{{ $key }}">
@@ -132,12 +138,6 @@
                         <label for="totalrp" class="col-lg-2 control-label">Total</label>
                         <div class="col-lg-10">
                             <input readonly type="text" name="totalrp" id="totalrp" class="form-control">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="diskon" class="col-lg-2 control-label">Diskon</label>
-                        <div class="col-lg-10">
-                            <input readonly type="text" name="diskon" id="diskon" class="form-control">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -209,6 +209,23 @@
                 let id = $(this).data('id')
                 $.ajax({
                         url: '{{ route('pembelian.cart') }}',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            id: id
+                        },
+                        method: "post",
+                    })
+                    .done((response) => {
+                        // console.log(response)
+                        location.reload()
+                    })
+            })
+
+            // delete cart pembelian
+            $('.delete').on('click', function() {
+                let id = $(this).data('id')
+                $.ajax({
+                        url: '{{ route('pembelian.delete') }}',
                         data: {
                             "_token": "{{ csrf_token() }}",
                             id: id
