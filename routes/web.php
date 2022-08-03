@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Pembelian Detail
     Route::get('/pembelian-detail/{id}/data', [PembelianDetailController::class, 'data'])->name('pembelian-detail.data')->middleware('CheckRole');
+    Route::post('/pembelian/cart', [PembelianController::class, 'cart'])->name('pembelian.cart');
     Route::resource('/pembelian-detail', PembelianDetailController::class)
         ->except('create', 'show', 'edit')->middleware('CheckRole');
 

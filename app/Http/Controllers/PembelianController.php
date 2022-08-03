@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pembelian;
+use App\Models\Produk;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Product;
 
 class PembelianController extends Controller
 {
@@ -30,6 +32,27 @@ class PembelianController extends Controller
             })
             ->rawColumns(['action'])
             ->make(true);
+    }
+
+    public function cart(Request $request)
+    {
+        $produk = Produk::find($request->id);
+        // return response()->json($produk, 200);
+        $keranjangPembelian = session('cartpembelian', []);
+        // apakah $keranjang sudah diset
+        if (isset($keranjangPembelian[$request->id])) {
+            $keranjangPembelian[$request->id]['quantity']++;
+        } else {
+            $keranjangPembelian[$request->id] = [
+                "name" => $produk->nama_produk,
+                "kode_produk" => $produk->kode_produk,
+                "quantity" => 1,
+                "price" => $produk->harga_beli,
+            ];
+        }
+        // Untuk menyimpan data dalam session
+        session()->put('cartpembelian', $keranjangPembelian);
+        // return session('cartpembelian');
     }
 
     /**

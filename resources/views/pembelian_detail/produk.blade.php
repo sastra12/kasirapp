@@ -7,6 +7,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
+                @if (session('status'))
+                    <div class="alert alert-success">
+                        {{ session('status') }}
+                    </div>
+                @endif
             </div>
             <div class="modal-body">
                 <div class="table-responsive">
@@ -28,8 +33,8 @@
                                     <td>{{ $item->nama_produk }}</td>
                                     <td>{{ $item->harga_beli }}</td>
                                     <td>
-                                        <a onclick="pilihProduk('{{ $item->id_produk }}', '{{ $item->kode_produk }}',)"
-                                            href="#" class="btn btn-primary btn-xs">Pilih</a>
+                                        <a href="#" class="btn btn-primary btn-xs pilih"
+                                            data-id="{{ $item->id_produk }}">Pilih</a>
                                     </td>
                                 </tr>
                             @endforeach

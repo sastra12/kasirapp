@@ -55,6 +55,7 @@ class PenjualanController extends Controller
     public function addToCart($id)
     {
         $produk = Produk::find($id);
+        // membuat cart dengan session
         $cart = session('cart', []);
         // []
         if (isset($cart[$id])) {
