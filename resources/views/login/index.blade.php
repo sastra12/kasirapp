@@ -24,7 +24,11 @@
     <div class="login-box">
         <div class="card">
             <div class="card-body login-card-body">
-
+                @if (session('status'))
+                    <div class="alert alert-danger">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 <form action="{{ route('authenticate') }}" method="post">
                     @csrf
                     <div class="form-group">
