@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pembelian;
+use App\Models\PembelianDetail;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -39,7 +40,7 @@ class PembelianController extends Controller
             })
             ->addColumn('action', function ($pembelian) {
                 return '
-            <a href="/pembelian/' . $pembelian->id_supplier . '/create" class="btn btn-primary btn-xs">Pilih</a>
+                <button onclick="deleteData(`' . route('pembelian.destroy', $pembelian->id_pembelian) . '`)" class="btn btn-xs btn-danger">Delete</button>
             ';
             })
             ->rawColumns(['action'])
@@ -136,6 +137,12 @@ class PembelianController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $pembelian = Pembelian::find($id);
+        $pembelian->delete();
+
+        $pembelian_detail = PembelianDetail::where('id_pembelian', $id)->get();
+        foreach ($pembelian_detail as $pd) {
+            $pd->delete();
+        }
     }
 }
