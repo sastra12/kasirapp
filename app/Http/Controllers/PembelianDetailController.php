@@ -4,8 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use App\Models\Supplier;
+use App\Models\Pembelian;
 use App\Models\PembelianDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Exception;
+
 
 class PembelianDetailController extends Controller
 {
@@ -92,9 +98,31 @@ class PembelianDetailController extends Controller
     public function deleteCart(Request $request)
     {
         if ($request->ajax()) {
-            $cart = session()->get('cartpembelian');
-            unset($cart[$request->id]);
-            session()->put('cartpembelian', $cart);
+            $keranjangPembelian = session()->get('cartpembelian');
+            unset($keranjangPembelian[$request->id]);
+            session()->put('cartpembelian', $keranjangPembelian);
+        }
+    }
+
+    public function incrementCart(Request $request)
+    {
+        $value = $request->value;
+        // return $value;
+        $produk = Produk::find($request->id);
+        $keranjangPembelian = session()->get('cartpembelian');
+        // return $keranjangPembelian;
+        // return $request->id;
+        if ($request->ajax()) {
+            if ($produk->stock <= $value) {
+                return response()->json([
+                    'message' => 'Failed'
+                ]);
+            } else {
+                $keranjangPembelian[$request->id]['quantity'] = $value;
+                // update session cart
+                session()->put('cartpembelian', $keranjangPembelian);
+                return response()->json(['message' => 'Success']);
+            }
         }
     }
 
@@ -106,20 +134,49 @@ class PembelianDetailController extends Controller
      */
     public function store(Request $request)
     {
-        // ddd($request);
-        $produk = Produk::where('id_produk', $request->id_produk)->first();
-        if (!$produk) {
-            return response()->json('Gagal disimpan', 400);
-        }
-        $detail = new PembelianDetail();
-        $detail->id_pembelian = $request->id_pembelian;
-        $detail->id_produk = $produk->id_produk;
-        $detail->harga_beli = $produk->harga_beli;
-        $detail->jumlah = 1;
-        $detail->subtotal = $produk->harga_beli;
-        $detail->save();
+        DB::beginTransaction();
+        try {
+            $validated = Validator::make($request->all(), [
+                'bayar' => 'required|numeric',
+            ]);
 
-        return response()->json('Data berhasil disimpan', 200);
+            if ($validated->fails()) {
+                return redirect('/pembelian-detail')->withErrors($validated);
+            } else {
+                // update pada tabel pembelian
+                $pembelian = Pembelian::where('id_pembelian', $request->id_pembelian)->first();
+                $pembelian->total_item = $request->total_item;
+                $pembelian->total_harga = $request->totalrp;
+                $pembelian->bayar = $request->bayar;
+                $pembelian->save();
+
+                foreach (session('cartpembelian') as $key => $item) {
+                    $index = 0;
+                    //  tambahkan ke tabel pembelian detail
+                    DB::table('pembelian_detail')->insert([
+                        'id_pembelian' => $request->id_pembelian,
+                        'id_produk' => $key,
+                        'harga_beli' => $item['price'],
+                        'jumlah' => $item['quantity'],
+                        'subtotal' => $item['price'] * $item['quantity'],
+                        'created_at' => Carbon::now()
+                    ]);
+
+                    $stockproduk = DB::table('produk')->where('id_produk', $key)->get();
+                    $quantity = $stockproduk[$index]->stock + $item['quantity'];
+                    // return $stockproduk[$index]->stock;
+                    DB::table('produk')->where('id_produk', $key)->update([
+                        'stock' => $quantity
+                    ]);
+                    $index++;
+                }
+            }
+            $request->session()->forget('cartpembelian');
+            DB::commit();
+            return redirect('/pembelian');
+        } catch (Exception $e) {
+            DB::rollback();
+        }
     }
 
     /**

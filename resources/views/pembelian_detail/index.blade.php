@@ -99,10 +99,9 @@
                                             <td style="text-align:center">{{ $item['name'] }}</td>
                                             <td style="text-align:center">{{ $item['price'] }}</td>
                                             <td class="col-sm-1">
-                                                <form action="" method="POST">
-                                                    <input type="number" class="form-control" style="text-align:center"
-                                                        value="{{ $item['quantity'] }}">
-                                                </form>
+                                                <input type="number" class="form-control increment"
+                                                    data-id="{{ $key }}" style="text-align:center"
+                                                    value="{{ $item['quantity'] }}">
                                             </td>
                                             {{-- <td style="text-align:center">{{ $item['quantity'] }}</td> --}}
                                             <td style="text-align:center">{{ $item['price'] * $item['quantity'] }}</td>
@@ -127,23 +126,27 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <form action="{{ route('pembelian.store') }}" class="form-pembelian" method="POST">
+                <form action="{{ route('pembelian-detail.store') }}" class="form-pembelian" method="POST">
                     @csrf
-                    {{-- <input type="hidden" name="id_pembelian" value="{{ $id_pembelian }}"> --}}
-                    <input type="hidden" name="total" id="total">
-                    <input type="hidden" name="total_item" id="total_item">
-                    <input type="hidden" name="bayar" id="bayar">
+                    <input type="hidden" name="id_pembelian" value="{{ session('id_pembelian') }}">
+                    {{-- <input type="hidden" name="total" id="total" value="{{ $total }}"> --}}
+                    <input type="hidden" name="total_item" id="total_item" value="{{ $total_item }}">
 
                     <div class="form-group row">
                         <label for="totalrp" class="col-lg-2 control-label">Total</label>
                         <div class="col-lg-10">
-                            <input readonly type="text" name="totalrp" id="totalrp" class="form-control">
+                            <input readonly type="text" name="totalrp" id="totalrp" class="form-control"
+                                value="{{ $total }}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label for="bayar" class="col-lg-2 control-label">Bayar</label>
                         <div class="col-lg-10">
-                            <input readonly type="text" name="bayar" id="bayar" class="form-control">
+                            <input type="number" name="bayar" id="bayar"
+                                class="form-control @error('bayar') is-invalid @enderror" autocomplete="off">
+                            @error('bayar')
+                                <span class="text-danger">{{ $message }}</span>
+                            @enderror
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -235,6 +238,31 @@
                     .done((response) => {
                         // console.log(response)
                         location.reload()
+                    })
+            })
+
+            // tambah cart dengan input
+            $('.increment').on('change', function() {
+                let value = $(this).val()
+                let id = $(this).data('id')
+                console.log(value)
+                $.ajax({
+                        url: '{{ route('pembelian.increment') }}',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            id: id,
+                            value: value
+                        },
+                        method: "post",
+                    })
+                    .done((response) => {
+                        console.log(response)
+                        if (response.message == 'Success') {
+                            location.reload()
+                        } else if (response.message == 'Failed') {
+                            alert('Stok tidak mencukupi')
+                            location.reload()
+                        }
                     })
             })
         })

@@ -65,9 +65,11 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Pembelian Detail
     Route::get('/pembelian-detail/{id}/data', [PembelianDetailController::class, 'data'])->name('pembelian-detail.data')->middleware('CheckRole');
-    Route::post('/pembelian/cart', [PembelianDetailController::class, 'cart'])->name('pembelian.cart');
-    Route::post('/pembelian/add-to-cart', [PembelianDetailController::class, 'addToCart'])->name('pembelian.add.to.cart');
-    Route::post('/pembelian/delete', [PembelianDetailController::class, 'deleteCart'])->name('pembelian.delete');
+    Route::post('/pembelian-detail/cart', [PembelianDetailController::class, 'cart'])->name('pembelian.cart');
+    Route::post('/pembelian-detail/add-to-cart', [PembelianDetailController::class, 'addToCart'])->name('pembelian.add.to.cart');
+    Route::post('/pembelian-detail/increment', [PembelianDetailController::class, 'incrementCart'])->name('pembelian.increment');
+    Route::post('/pemebelian-detail/store', [PembelianDetailController::class, 'store'])->name('pembelian-detail.store');
+    Route::post('/pembelian-detail/delete', [PembelianDetailController::class, 'deleteCart'])->name('pembelian.delete');
     Route::resource('/pembelian-detail', PembelianDetailController::class)
         ->except('create', 'show', 'edit')->middleware('CheckRole');
 
