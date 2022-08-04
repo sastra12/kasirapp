@@ -20,7 +20,7 @@
                                 Baru</i></button>
                     </div>
                     <div class="card-body table-responsive">
-                        <table class="table table-striped">
+                        <table class="table table-striped" id="tabel_pembelian">
                             <thead>
                                 <tr>
                                     <th scope="col" width="5%">No</th>
@@ -79,6 +79,60 @@
                 }
             });
 
+
+            // modal tabel pembelian
+            table = $('#tabel_pembelian').DataTable({
+                // buat menghilangkan sortable pada nomor
+                "aaSorting": [],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '{{ route('pembelian.data') }}',
+                    type: 'GET'
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        searchable: false,
+                        sortable: false,
+                    },
+                    {
+                        data: 'tanggal',
+                        name: 'tanggal'
+                    },
+                    {
+                        data: 'nama',
+                        name: 'nama'
+                    },
+                    {
+                        data: 'total_item',
+                        name: 'total_item',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'total_harga',
+                        name: 'total_harga',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'diskon',
+                        name: 'diskon',
+                        className: 'text-center'
+                    },
+                    {
+                        data: 'bayar',
+                        name: 'bayar'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            })
+
+            // modal tabel pada supplier
             tableSupplier = $('#table_supplier').DataTable({
                 // buat menghilangkan sortable pada nomor
                 "aaSorting": [],

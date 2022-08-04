@@ -22,7 +22,6 @@ class PembelianDetailController extends Controller
      */
     public function index()
     {
-        // $id_pembelian = session('id_pembelian');
         $produk = Produk::orderBy('nama_produk')->get();
         $supplier = Supplier::find(session('id_supplier'));
         if (!$supplier) {
@@ -172,6 +171,7 @@ class PembelianDetailController extends Controller
                 }
             }
             $request->session()->forget('cartpembelian');
+            $request->session()->forget('id_supplier');
             DB::commit();
             return redirect('/pembelian');
         } catch (Exception $e) {

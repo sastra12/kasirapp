@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pembelian;
-use App\Models\Produk;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
-use Product;
+use Illuminate\Support\Facades\DB;
+
 
 class PembelianController extends Controller
 {
@@ -18,6 +18,32 @@ class PembelianController extends Controller
     public function index()
     {
         return view('pembelian.index');
+    }
+
+    public function data()
+    {
+        $pembelian = DB::table('pembelian as p')
+            ->leftJoin('supplier as s', 'p.id_supplier', '=', 's.id_supplier')
+            ->select('s.nama', 'p.*')
+            ->get();
+        return datatables($pembelian)
+            ->addIndexColumn()
+            ->addColumn('tanggal', function ($pembelian) {
+                return format_tanggal($pembelian->created_at);
+            })
+            ->addColumn('total_harga', function ($pembelian) {
+                return format_uang($pembelian->total_harga);
+            })
+            ->addColumn('bayar', function ($pembelian) {
+                return format_uang($pembelian->bayar);
+            })
+            ->addColumn('action', function ($pembelian) {
+                return '
+            <a href="/pembelian/' . $pembelian->id_supplier . '/create" class="btn btn-primary btn-xs">Pilih</a>
+            ';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     public function getSupplier()
