@@ -147,6 +147,11 @@
                             @error('bayar')
                                 <span class="text-danger">{{ $message }}</span>
                             @enderror
+                            @if (session('status'))
+                                <span class="text-danger">
+                                    {{ session('status') }}
+                                </span>
+                            @endif
                         </div>
                     </div>
                     <div class="modal-footer">

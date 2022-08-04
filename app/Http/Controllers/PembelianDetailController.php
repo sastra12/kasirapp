@@ -106,22 +106,14 @@ class PembelianDetailController extends Controller
     public function incrementCart(Request $request)
     {
         $value = $request->value;
-        // return $value;
-        $produk = Produk::find($request->id);
         $keranjangPembelian = session()->get('cartpembelian');
         // return $keranjangPembelian;
         // return $request->id;
         if ($request->ajax()) {
-            if ($produk->stock <= $value) {
-                return response()->json([
-                    'message' => 'Failed'
-                ]);
-            } else {
-                $keranjangPembelian[$request->id]['quantity'] = $value;
-                // update session cart
-                session()->put('cartpembelian', $keranjangPembelian);
-                return response()->json(['message' => 'Success']);
-            }
+            $keranjangPembelian[$request->id]['quantity'] = $value;
+            // update session cart
+            session()->put('cartpembelian', $keranjangPembelian);
+            return response()->json(['message' => 'Success']);
         }
     }
 
@@ -141,6 +133,8 @@ class PembelianDetailController extends Controller
 
             if ($validated->fails()) {
                 return redirect('/pembelian-detail')->withErrors($validated);
+            } else if ($request->bayar < $request->totalrp) {
+                return redirect('/pembelian-detail')->with('status', 'Gagal menyimpan');
             } else {
                 // update pada tabel pembelian
                 $pembelian = Pembelian::where('id_pembelian', $request->id_pembelian)->first();
