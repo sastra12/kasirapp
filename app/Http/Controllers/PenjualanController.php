@@ -104,6 +104,12 @@ class PenjualanController extends Controller
                 return response()->json([
                     'message' => 'Failed'
                 ]);
+            } else if ($value == 0) {
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+                return response()->json([
+                    'message' => 'cancelled'
+                ]);
             } else {
                 $cart[$request->id]['quantity'] = $value;
                 // update session cart

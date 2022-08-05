@@ -212,6 +212,8 @@
                         } else if (response.message == 'Failed') {
                             alert('Stok tidak mencukupi')
                             location.reload()
+                        } else {
+                            location.reload()
                         }
                     })
             })
