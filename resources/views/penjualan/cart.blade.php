@@ -77,18 +77,22 @@
                                             <td><span class="badge badge-success">{{ $item['kode_produk'] }}</span></td>
                                             <td>{{ $item['name'] }}</td>
                                             <td>{{ $item['price'] }}</td>
-                                            <td style="text-align: center;">{{ $item['quantity'] }}</td>
+                                            <td class="col-sm-2">
+                                                <input type="number" class="form-control increment"
+                                                    data-id="{{ $key }}" style="text-align:center"
+                                                    value="{{ $item['quantity'] }}">
+                                            </td>
                                             <td style="text-align: center;">{{ $item['price'] * $item['quantity'] }}</td>
-                                            <td>
+                                            <td style="text-align:center">
                                                 <a class="btn-danger btn-sm delete" data-id="{{ $key }}">
                                                     <i class="fas fa-trash" style='font-size:12px'></i>
                                                 </a>
-                                                <a class="btn-warning btn-sm reduce" data-id="{{ $key }}">
+                                                {{-- <a class="btn-warning btn-sm reduce" data-id="{{ $key }}">
                                                     <i class="fas fa-minus text-white" style='font-size:12px'></i>
                                                 </a>
                                                 <a class="btn-info btn-sm plus" data-id="{{ $key }}">
                                                     <i class="fas fa-plus text-white" style='font-size:12px'></i>
-                                                </a>
+                                                </a> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -155,40 +159,6 @@
 @push('script')
     <script>
         $(document).ready(function() {
-            $('.plus').on('click', function() {
-                const id = $(this).data("id")
-                $.ajax({
-                        url: '{{ route('cart.increment') }}',
-                        data: {
-                            "_token": "{{ csrf_token() }}",
-                            id: id
-                        },
-                        method: "post",
-                    })
-                    .done((response) => {
-                        console.log(response)
-                        if (response.message == 'Success') {
-                            location.reload()
-                        } else if (response.message == 'Failed') {
-                            alert('Stok tidak mencukupi')
-                        }
-                    })
-            })
-
-            $('.reduce').on('click', function() {
-                const id = $(this).data("id")
-                $.ajax({
-                    url: '{{ route('cart.decrement') }}',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        id: id
-                    },
-                    method: "post",
-                    success: function(data) {
-                        location.reload();
-                    }
-                })
-            })
 
             $('.delete').on('click', function() {
                 const id = $(this).data("id")
@@ -221,6 +191,29 @@
                 } else {
                     $('#btnSave').removeAttr('disabled')
                 }
+            })
+
+            $('.increment').on('change', function() {
+                let value = $(this).val()
+                let id = $(this).data('id')
+                $.ajax({
+                        url: '{{ route('cart.value') }}',
+                        data: {
+                            "_token": "{{ csrf_token() }}",
+                            id: id,
+                            value: value
+                        },
+                        method: "post",
+                    })
+                    .done((response) => {
+                        console.log(response)
+                        if (response.message == 'Success') {
+                            location.reload()
+                        } else if (response.message == 'Failed') {
+                            alert('Stok tidak mencukupi')
+                            location.reload()
+                        }
+                    })
             })
 
             // ketika tombol button diklik

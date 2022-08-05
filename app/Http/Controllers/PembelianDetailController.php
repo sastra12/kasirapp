@@ -107,8 +107,6 @@ class PembelianDetailController extends Controller
     {
         $value = $request->value;
         $keranjangPembelian = session()->get('cartpembelian');
-        // return $keranjangPembelian;
-        // return $request->id;
         if ($request->ajax()) {
             $keranjangPembelian[$request->id]['quantity'] = $value;
             // update session cart

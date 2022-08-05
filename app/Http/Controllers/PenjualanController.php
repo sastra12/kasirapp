@@ -92,19 +92,20 @@ class PenjualanController extends Controller
         return view('penjualan.cart');
     }
 
-    public function incrementCart(Request $request)
+    public function cartValue(Request $request)
     {
+        // ddd($request);
         $produk = Produk::find($request->id);
-        // mengambil session dengan fungsi get
+        $value = $request->value;
         $cart = session()->get('cart');
-        // ddd($produk);
         if ($request->ajax()) {
-            if ($produk->stock <= $cart[$request->id]['quantity']) {
+            // jika stok tidak mencukupi
+            if ($produk->stock <= $value) {
                 return response()->json([
                     'message' => 'Failed'
                 ]);
             } else {
-                $cart[$request->id]['quantity'] += 1;
+                $cart[$request->id]['quantity'] = $value;
                 // update session cart
                 session()->put('cart', $cart);
                 return response()->json(['message' => 'Success']);

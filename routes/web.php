@@ -78,8 +78,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
     Route::get('/cart', [PenjualanController::class, 'cart'])->name('cart');
     Route::get('/add-to-cart/{id}', [PenjualanController::class, 'addToCart'])->name('add.to.cart');
-    Route::post('/cart/increment', [PenjualanController::class, 'incrementCart'])->name('cart.increment');
-    Route::post('/cart/decrement', [PenjualanController::class, 'decrementCart'])->name('cart.decrement');
+    Route::post('/cart/value', [PenjualanController::class, 'cartValue'])->name('cart.value');
     Route::post('/cart/delete', [PenjualanController::class, 'deleteCart'])->name('cart.delete');
     Route::post('/penjualan', [PenjualanController::class, 'store'])->name('penjualan.store');
 
