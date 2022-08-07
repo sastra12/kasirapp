@@ -108,7 +108,7 @@
                  @can('admin')
                      <li class="nav-header">Report</li>
                      <li class="nav-item">
-                         <a href="pages/calendar.html" class="nav-link">
+                         <a href="{{ route('laporan.index') }}" class="nav-link">
                              <i class="fa fa-file"></i>
                              <p>
                                  Laporan
