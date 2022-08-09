@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\LoginController;
@@ -31,9 +32,11 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard.index');
+    // })->name('dashboard');
+
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     // Kategori
     Route::get('/kategori/data', [KategoriController::class, 'data'])->name('kategori.data')->middleware('CheckRole');
