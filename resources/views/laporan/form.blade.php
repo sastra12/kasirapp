@@ -4,7 +4,7 @@
 
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title"></h5>
+                <h5 class="modal-title">Periode Laporan</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -13,13 +13,16 @@
                 <ul id="error_list">
 
                 </ul>
-                <form action="" method="post">
-                    @csrf
-                    @method('post')
+                <form action="{{ route('laporan.index') }}" method="get">
                     <div class="form-group">
-                        <label for="nama_kategori">Nama Kategori</label>
-                        <input type="text" class="form-control" id="nama_kategori" name="nama_kategori"
-                            value="{{ old('nama_kategori') }}">
+                        <label for="tanggal_awal">Tanggal Awal</label>
+                        <input type="text" class="form-control datepicker" id="tanggal_awal" name="tanggal_awal"
+                            autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="tanggal_akhir">Tanggal Akhir</label>
+                        <input type="text" class="form-control datepicker" id="tanggal_akhir" name="tanggal_akhir"
+                            autocomplete="off">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Simpan</button>
