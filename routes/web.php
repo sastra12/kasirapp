@@ -28,7 +28,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'authenticate'])->name('authenticate');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::view('/masterone', 'layouts.masterone');
 
 Route::group(['middleware' => 'auth'], function () {
 
@@ -59,7 +58,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     // Pembelian
     Route::get('/pembelian/data', [PembelianController::class, 'data'])->name('pembelian.data')->middleware('CheckRole');
-    Route::get('/pembelian/supplier', [PembelianController::class, 'getSupplier'])->name('pembelian.supplier');
+    Route::get('/pembelian/supplier', [PembelianController::class, 'getSupplier'])->name('pembelian.supplier')->middleware('CheckRole');
     Route::get('/pembelian/{id}/create', [PembelianController::class, 'create'])->name('pembelian.create');
     Route::resource('/pembelian', PembelianController::class)
         ->except('create')->middleware('CheckRole');
@@ -100,4 +99,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
     Route::resource('/users', UserController::class)
         ->except('show', 'edit', 'update', 'create');
+});
+
+Route::fallback(function () {
+    abort(403);
 });

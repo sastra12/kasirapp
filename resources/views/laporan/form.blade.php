@@ -10,19 +10,16 @@
                 </button>
             </div>
             <div class="modal-body">
-                <ul id="error_list">
-
-                </ul>
                 <form action="{{ route('laporan.index') }}" method="get">
                     <div class="form-group">
                         <label for="tanggal_awal">Tanggal Awal</label>
                         <input type="text" class="form-control datepicker" id="tanggal_awal" name="tanggal_awal"
-                            autocomplete="off">
+                            autocomplete="off" required>
                     </div>
                     <div class="form-group">
                         <label for="tanggal_akhir">Tanggal Akhir</label>
                         <input type="text" class="form-control datepicker" id="tanggal_akhir" name="tanggal_akhir"
-                            autocomplete="off">
+                            autocomplete="off" required>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">Simpan</button>

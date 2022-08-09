@@ -14,6 +14,14 @@ class LaporanController extends Controller
         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
         $tanggalAkhir = date('Y-m-d');
         if ($request->has('tanggal_awal') && $request->tanggal_awal != "" && $request->has('tanggal_akhir') && $request->tanggal_akhir) {
+            $validated = Validator::make($request->all(), [
+                'tanggal_awal' => 'required',
+                'tanggal_akhir' => 'required',
+            ]);
+
+            if ($validated->fails()) {
+                return redirect()->route('laporan.index')->withErrors($validated);
+            }
             $tanggalAwal = $request->tanggal_awal;
             $tanggalAkhir = $request->tanggal_akhir;
         }
@@ -68,11 +76,5 @@ class LaporanController extends Controller
         return datatables()
             ->of($data)
             ->make(true);
-    }
-
-    public function refresh(Request $request)
-    {
-        $tanggalAwal = $request->tanggal_awal;
-        $tanggalAkhir = $request->tanggal_akhir;
     }
 }

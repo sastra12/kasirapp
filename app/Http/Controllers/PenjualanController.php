@@ -100,7 +100,7 @@ class PenjualanController extends Controller
         $cart = session()->get('cart');
         if ($request->ajax()) {
             // jika stok tidak mencukupi
-            if ($produk->stock <= $value) {
+            if ($produk->stock < $value) {
                 return response()->json([
                     'message' => 'Failed'
                 ]);
