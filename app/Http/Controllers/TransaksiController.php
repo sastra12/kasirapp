@@ -18,12 +18,20 @@ class TransaksiController extends Controller
 
     public function data()
     {
-        $data = DB::table('penjualan')
-            ->leftJoin('users', 'users.id', '=', 'penjualan.id_user')
-            ->select('penjualan.*', 'users.name')
-            ->get();
-
-        // ddd($data);
+        // level 
+        $level = auth()->user()->level;
+        if ($level != 0) {
+            $data = DB::table('penjualan')
+                ->leftJoin('users', 'users.id', '=', 'penjualan.id_user')
+                ->select('penjualan.*', 'users.name')
+                ->where('penjualan.id_user', auth()->user()->id)
+                ->get();
+        } else {
+            $data = DB::table('penjualan')
+                ->leftJoin('users', 'users.id', '=', 'penjualan.id_user')
+                ->select('penjualan.*', 'users.name')
+                ->get();
+        }
 
         return Datatables::of($data)
             // for number
