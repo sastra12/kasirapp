@@ -118,7 +118,7 @@
                      <li class="nav-header">System</li>
                      <li class="nav-item">
                          <a href="{{ route('users.index') }}" class="nav-link">
-                             <i class="fa fa-user"></i>
+                             <i class="fa fa-users"></i>
                              <p>
                                  User
                              </p>
@@ -133,7 +133,14 @@
                          </a>
                      </li>
                  @endcan
-
+                 <li class="nav-item">
+                     <a href="{{ route('users.edit', ['user' => auth()->user()->id]) }}" class="nav-link">
+                         <i class="fa fa-user"></i>
+                         <p>
+                             Profil
+                         </p>
+                     </a>
+                 </li>
                  <li class="nav-item">
                      <a href="#" class="nav-link" onclick="document.getElementById('logout-form').submit()">
                          <i class="fa fa-cog"></i>

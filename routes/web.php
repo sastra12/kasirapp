@@ -96,12 +96,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/laporan', [LaporanController::class, 'refresh'])->name('laporan.refresh');
     Route::get('/laporan/data/{awal}/{akhir}', [LaporanController::class, 'data'])->name('laporan.data');
 
-
-
     // User
     Route::get('/users/data', [UserController::class, 'data'])->name('users.data');
     Route::resource('/users', UserController::class)
-        ->except('show', 'edit', 'update', 'create');
+        ->except('create');
 });
 
 Route::fallback(function () {

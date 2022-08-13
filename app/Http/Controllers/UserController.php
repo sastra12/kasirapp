@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -95,7 +96,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -107,7 +109,23 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $validated = Validator::make($request->all(), [
+            'nama' => 'required',
+            'email' => 'required',
+            'password' => 'required|confirmed|min:5'
+        ]);
+
+        if ($validated->fails()) {
+            return redirect()->back()->withErrors($validated);
+        } else {
+            $data = User::find($id);
+            $data->name = $request->nama;
+            $data->email = $request->email;
+            $data->password = bcrypt($request->password);
+            $data->save();
+            return redirect()->back()->with('status', 'Profile berhasil di update');
+        }
     }
 
     /**
