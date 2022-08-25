@@ -59,19 +59,36 @@
 
 
         function deleteData(url) {
-            if (confirm('Yakin hapus data?')) {
-                $.ajax({
-                        url: url,
-                        type: 'DELETE',
-                    })
-                    .done((response) => {
-                        table.ajax.reload();
-                    })
-                    .fail((errors) => {
-                        alert('Tidak dapat menghapus data');
-                        return;
-                    })
-            }
+            swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this data!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                                url: url,
+                                method: 'DELETE',
+                            })
+                            .done((response) => {
+                                swal("Success data has been deleted!", {
+                                    icon: "success",
+                                });
+                                table.ajax.reload();
+                            })
+                            .fail((errors) => {
+                                swal("Failed deleted data!", {
+                                    icon: "warning",
+                                });
+                                return;
+                            });
+
+                    } else {
+                        swal("Data is safe!");
+                    }
+                });
         }
 
         $(document).ready(function() {
@@ -121,7 +138,12 @@
                         if (response.message == 'Success Added Data' || response.message ==
                             'Success Updated Data') {
                             $('#modal-form').modal('hide');
-                            alert(response.message)
+                            swal({
+                                title: "Success!",
+                                text: response.message,
+                                icon: "success",
+                                button: "Ok!",
+                            });
                             table.ajax.reload()
                         } else if (response.status == 'Failed added' || response.status ==
                             'Failed updated') {
