@@ -80,7 +80,6 @@
             // buat aksi ke method update
             $('#modal-form form').attr('action', url);
             $('#modal-form [name=_method]').val('put');
-
             $.get(url)
                 .done((response) => {
                     $('#nama').val(response.nama_produk)
