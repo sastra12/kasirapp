@@ -146,7 +146,12 @@
                         if (response.message == 'Success Added Data' || response.message ==
                             'Success Updated Data') {
                             $('#modal-form').modal('hide');
-                            alert(response.message)
+                            swal({
+                                title: "Success!",
+                                text: response.message,
+                                icon: "success",
+                                button: "Ok!",
+                            });
                             table.ajax.reload()
                         } else if (response.status == 'Failed added' || response.status ==
                             'Failed updated') {

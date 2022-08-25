@@ -94,48 +94,84 @@
         }
 
         function deleteData(url) {
-            if (confirm('Yakin ingin menghapus data terpilih?')) {
-                $.ajax({
-                        url: url,
-                        method: 'DELETE',
-                    })
-                    .done((response) => {
-                        table.ajax.reload();
-                    })
-                    .fail((errors) => {
-                        alert('Tidak dapat menghapus data');
-                        return;
-                    });
-            }
+            swal({
+                    title: "Are you sure?",
+                    text: "Once deleted, you will not be able to recover this data!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                                url: url,
+                                method: 'DELETE',
+                            })
+                            .done((response) => {
+                                swal("Success data has been deleted!", {
+                                    icon: "success",
+                                });
+                                table.ajax.reload();
+                            })
+                            .fail((errors) => {
+                                swal("Failed deleted data!", {
+                                    icon: "warning",
+                                });
+                                return;
+                            });
+
+                    } else {
+                        swal("Data is safe!");
+                    }
+                });
         }
 
         function deleteSelected(url) {
             if ($('.checkMultiple:checked').length == 0) {
-                alert('Minimal pilih satu data')
+                swal({
+                    title: "Choose one data!",
+                    icon: "warning",
+                    button: "Ok!",
+                });
             } else {
-                if (confirm('Yakin hapus data terpilih?')) {
-                    let id = [];
-                    $('.checkMultiple:checked').each(function(i) {
-                        id.push($(this).data('id'))
+                swal({
+                        title: "are you sure delete the selected data?",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
                     })
-                    $.ajax({
-                            url: url,
-                            type: 'DELETE',
-                            data: {
-                                id: id
-                            }
-                        }).done((response) => {
-                            table.ajax.reload();
-                            // biar tidak checked lagi
-                            if ($("#select_all").is(':checked')) {
-                                $("#select_all").prop('checked', false)
-                            }
-                        })
-                        .fail((errors) => {
-                            alert('Tidak dapat menghapus data');
-                            return;
-                        });
-                }
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            let id = [];
+                            $('.checkMultiple:checked').each(function(i) {
+                                id.push($(this).data('id'))
+                            })
+                            $.ajax({
+                                    url: url,
+                                    type: 'DELETE',
+                                    data: {
+                                        id: id
+                                    }
+                                }).done((response) => {
+                                    table.ajax.reload();
+                                    // biar tidak checked lagi
+                                    if ($("#select_all").is(':checked')) {
+                                        $("#select_all").prop('checked', false)
+                                    }
+                                })
+                                .fail((errors) => {
+                                    swal({
+                                        title: "Failed deleted data!",
+                                        icon: "warning",
+                                        button: "Ok!",
+                                    });
+                                    return;
+                                });
+
+                        } else {
+                            swal("Data is safe!");
+                        }
+                    });
             }
 
         }
@@ -222,7 +258,12 @@
                         if (response.message == 'Success Added Data' || response.message ==
                             'Success Updated Data') {
                             $('#modal-form').modal('hide');
-                            alert(response.message)
+                            swal({
+                                title: "Success!",
+                                text: response.message,
+                                icon: "success",
+                                button: "Ok!",
+                            });
                             table.ajax.reload()
                         } else if (response.status == 'Failed added' || response.status ==
                             'Failed updated') {

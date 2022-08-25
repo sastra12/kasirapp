@@ -122,6 +122,7 @@
     {{-- <script src="{{ asset('AdminLTE-3/dist/js/pages/dashboard.js') }}"></script> --}}
     <!-- AdminLTE for demo purposes -->
     <script src="{{ asset('AdminLTE-3/dist/js/demo.js') }}"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     @stack('script')
 </body>
 
