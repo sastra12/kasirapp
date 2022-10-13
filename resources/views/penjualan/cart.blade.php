@@ -151,19 +151,34 @@
         $(document).ready(function() {
 
             $('.delete').on('click', function() {
-                const id = $(this).data("id")
-                $.ajax({
-                    url: '{{ route('cart.delete') }}',
-                    data: {
-                        "_token": "{{ csrf_token() }}",
-                        id: id
-                    },
-                    method: "post",
-                    success: function(data) {
-                        alert('Data keranjang berhasil dihapus')
-                        window.location.href = "{{ route('penjualan.index') }}";
-                    }
-                })
+                swal({
+                        title: "Are you sure?",
+                        text: "Once deleted, you will not be able to recover this data!",
+                        icon: "warning",
+                        buttons: true,
+                        dangerMode: true,
+                    })
+                    .then((willDelete) => {
+                        if (willDelete) {
+                            const id = $(this).data("id")
+                            $.ajax({
+                                url: '{{ route('cart.delete') }}',
+                                data: {
+                                    "_token": "{{ csrf_token() }}",
+                                    id: id
+                                },
+                                method: "post",
+                                success: function(data) {
+                                    window.location.href =
+                                        "{{ route('penjualan.index') }}";
+                                }
+                            })
+
+                        } else {
+                            swal("Data is safe!");
+                        }
+                    });
+
             })
 
             $('#diterima').on('input', function() {
@@ -204,7 +219,7 @@
                         } else if (response.message == 'Failed') {
                             alert('Stok tidak mencukupi')
                             location.reload()
-                        } else if (response.message == "cancelled") {
+                        } else {
                             alert('Data keranjang tidak boleh 0')
                             location.reload()
                         }
