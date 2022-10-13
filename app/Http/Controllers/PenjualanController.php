@@ -89,7 +89,10 @@ class PenjualanController extends Controller
 
     public function cart()
     {
-        return view('penjualan.cart');
+        if (session('cart')) {
+            return view('penjualan.cart');
+        }
+        return abort(404);
     }
 
     public function cartValue(Request $request)
@@ -105,10 +108,11 @@ class PenjualanController extends Controller
                     'message' => 'Failed'
                 ]);
             } else if ($value == 0) {
-                unset($cart[$request->id]);
+                $cart[$request->id]['quntity'] = 1;
+                // unset($cart[$request->id]);
                 session()->put('cart', $cart);
                 return response()->json([
-                    'message' => 'cancelled'
+                    'message' => 'cancelled',
                 ]);
             } else {
                 $cart[$request->id]['quantity'] = $value;

@@ -48,11 +48,7 @@
                             </div>
                         @endif
                     </div>
-                    @if (session('cart') == null)
-                        <div class="card-body table-responsive">
-                            <h4>Data Not Found</h4>
-                        </div>
-                    @else
+                    @if (session('cart'))
                         <div class="card-body table-responsive">
                             <table class="table table-striped">
                                 <thead>
@@ -87,12 +83,6 @@
                                                 <a class="btn-danger btn-sm delete" data-id="{{ $key }}">
                                                     <i class="fas fa-trash" style='font-size:12px'></i>
                                                 </a>
-                                                {{-- <a class="btn-warning btn-sm reduce" data-id="{{ $key }}">
-                                                    <i class="fas fa-minus text-white" style='font-size:12px'></i>
-                                                </a>
-                                                <a class="btn-info btn-sm plus" data-id="{{ $key }}">
-                                                    <i class="fas fa-plus text-white" style='font-size:12px'></i>
-                                                </a> --}}
                                             </td>
                                         </tr>
                                     @endforeach
@@ -170,7 +160,8 @@
                     },
                     method: "post",
                     success: function(data) {
-                        location.reload();
+                        alert('Data keranjang berhasil dihapus')
+                        window.location.href = "{{ route('penjualan.index') }}";
                     }
                 })
             })
@@ -209,10 +200,12 @@
                         console.log(response)
                         if (response.message == 'Success') {
                             location.reload()
+                            // returnCart()
                         } else if (response.message == 'Failed') {
                             alert('Stok tidak mencukupi')
                             location.reload()
-                        } else {
+                        } else if (response.message == "cancelled") {
+                            alert('Data keranjang tidak boleh 0')
                             location.reload()
                         }
                     })

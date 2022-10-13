@@ -8,9 +8,7 @@
 @section('breadcrumb')
     @parent
 
-    @if (session('cart') == null)
-        <a href="{{ route('cart') }}" class="breadcrumb-item active">Cart</a>
-    @else
+    @if (session('cart'))
         <a href="{{ route('cart') }}" class="breadcrumb-item active">Cart : {{ count(session('cart')) }}</a>
     @endif
 @endsection
