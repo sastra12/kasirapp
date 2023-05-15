@@ -32,10 +32,6 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::group(['middleware' => 'auth'], function () {
 
-    // Route::get('/dashboard', function () {
-    //     return view('dashboard.index');
-    // })->name('dashboard');
-
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     // Kategori
